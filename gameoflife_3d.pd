@@ -1,5 +1,5 @@
-#N canvas 1213 95 553 308 10;
-#N canvas 1107 185 735 399 \$0-gameofLife 0;
+#N canvas 1166 95 553 308 10;
+#N canvas 1060 185 735 399 \$0-gameofLife 0;
 #X obj 10 10 cnv 15 510 270 empty empty empty 20 12 0 14 -257985 -66577
 0;
 #X obj 20 20 cnv 15 490 250 empty empty Game_of_Life_3d 110 50 0 30
@@ -474,7 +474,7 @@ ofelia.dCell_22) \; a.shaderGameOfLife:setUniform1f("dCell_23" \, ofelia.dCell_2
 a.shaderGameOfLife:setUniform1f("dCell_25" \, ofelia.dCell_25) \; a.shaderGameOfLife:setUniform1f("dCell_26"
 \, ofelia.dCell_26) \; a.shaderGameOfLife:setUniform1i("zCount" \,
 z) \; a.fboCells:beginFbo() \; ofClear(0) \; ofDrawRectangle(0 \, 0
-\, 256 \, 256) \; a.fboCells:endFbo() \; a.fboCells:readToPixels(a.pixArray[z
+\, a.volWidth \, a.volHeight) \; a.fboCells:endFbo() \; a.fboCells:readToPixels(a.pixArray[z
 + 1]) \; a.shaderGameOfLife:endShader() \; end \; for z = 0 \, a.volDepth
 -1 do \; a.volumetrics:loadVolumeData(a.pixArray[z + 1]:getData() \,
 a.volWidth \, a.volHeight \, 1 \, 0 \, 0 \, z) \; end \; end \; \;
