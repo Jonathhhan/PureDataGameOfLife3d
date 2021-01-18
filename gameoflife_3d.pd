@@ -1,0 +1,570 @@
+#N canvas 1213 95 553 308 10;
+#N canvas 1107 185 735 399 \$0-gameofLife 0;
+#X obj 10 10 cnv 15 510 270 empty empty empty 20 12 0 14 -257985 -66577
+0;
+#X obj 20 20 cnv 15 490 250 empty empty Game_of_Life_3d 110 50 0 30
+-4032 -257985 0;
+#X obj 39 153 cnv 15 450 60 empty empty empty 20 12 0 14 -262144 -66577
+0;
+#X obj 64 177 tgl 15 1 \$0-Living_Cell_1 empty empty 17 7 0 10 -204786
+-1 -1 0 1;
+#X obj 80 177 tgl 15 1 \$0-Living_Cell_2 empty empty 17 7 0 10 -204786
+-1 -1 1 1;
+#X obj 96 177 tgl 15 1 \$0-Living_Cell_3 empty empty 17 7 0 10 -204786
+-1 -1 0 1;
+#X obj 112 177 tgl 15 1 \$0-Living_Cell_4 empty empty 17 7 0 10 -204786
+-1 -1 1 1;
+#X obj 128 177 tgl 15 1 \$0-Living_Cell_5 empty empty 17 7 0 10 -204786
+-1 -1 0 1;
+#X obj 144 177 tgl 15 1 \$0-Living_Cell_6 empty empty 17 7 0 10 -204786
+-1 -1 0 1;
+#X obj 160 177 tgl 15 1 \$0-Living_Cell_7 empty empty 17 7 0 10 -204786
+-1 -1 1 1;
+#X obj 176 177 tgl 15 1 \$0-Living_Cell_8 empty empty 17 7 0 10 -204786
+-1 -1 1 1;
+#X obj 64 193 tgl 15 1 \$0-Dead_Cell_1 empty empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 80 193 tgl 15 1 \$0-Dead_Cell_2 empty empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 96 193 tgl 15 1 \$0-Dead_Cell_3 empty empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 112 193 tgl 15 1 \$0-Dead_Cell_4 empty empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 128 193 tgl 15 1 \$0-Dead_Cell_5 empty empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 144 193 tgl 15 1 \$0-Dead_Cell_6 empty empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 160 193 tgl 15 1 \$0-Dead_Cell_7 empty empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 176 193 tgl 15 1 \$0-Dead_Cell_8 empty empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 48 157 bng 15 250 50 0 \$0-Iterate empty Iterate 17 7 0 10 -257985
+-1 -1;
+#X obj 48 193 tgl 15 1 \$0-Dead_Cell_0 empty empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 48 177 tgl 15 1 \$0-Living_Cell_0 empty empty 17 7 0 10 -204786
+-1 -1 0 1;
+#X obj 188 158 nbx 5 14 1 1000 0 1 \$0-Interval empty Interval 56 7
+0 10 -257985 -1 -1 10 256;
+#X obj 112 157 tgl 15 0 \$0-Sequence empty Sequence 17 7 0 10 -257985
+-1 -1 0 1;
+#X msg 547 44 interval \$1;
+#X obj 547 25 nbx 5 14 -1e+37 1e+37 0 0 empty \$0-Interval Interval
+0 -8 0 10 -257985 -1 -1 10 256;
+#X msg 547 172 conway;
+#X msg 547 108 sequence \$1;
+#X obj 547 152 bng 15 250 50 0 empty \$0-Iterate Iterate 17 7 0 10
+-257985 -1 -1;
+#X obj 547 195 s \$0-volumetrics;
+#X obj 547 129 s \$0-volumetrics;
+#X obj 547 65 s \$0-volumetrics;
+#X msg 547 238 upload 1;
+#X obj 547 284 ofelia d -k \$0-volumetrics;
+#A __set if type(window) ~= "userdata" then \; window = ofWindow()
+\; end \; \; local a = ofelia \; local canvas = ofCanvas(this) \; local
+clock = ofClock(this \, "setup") \; local imageDir = canvas:getDir()
+.. "/images/cthead-8bit" \; local shaderDir = canvas:getDir() .. "/shader/"
+\; local pix = ofPixels() \; a.volumetrics = ofVolumetrics() \; local
+imageSequence = ofImageSequencePlayer() \; a.volWidth \, a.volHeight
+\, a.volDepth \, counter = 0 \, 0 \, 0 \, -1 \; a.fboCells = ofFbo()
+\; a.shaderGameOfLife = ofShader() \; cam = ofEasyCam() \; \; function
+a.new() \; ofWindow.addListener("setup" \, this) \; ofWindow.addListener("update"
+\, this) \; ofWindow.addListener("draw" \, this) \; ofWindow.addListener("exit"
+\, this) \; window:setPosition(30 \, 100) \; window:setSize(1024 \,
+1024) \; if ofWindow.exists then \; clock:delay(0) \; else \; window:create()
+\; end \; end \; \; function a.free() \; window:destroy() \; ofWindow.removeListener("setup"
+\, this) \; ofWindow.removeListener("update" \, this) \; ofWindow.removeListener("draw"
+\, this) \; ofWindow.removeListener("exit" \, this) \; end \; \; function
+a.setup() \; ofSetWindowTitle("Game of Life") \; ofBackground(0) \;
+a.shaderGameOfLife:load(shaderDir .. "GameOfLife3d") \; end \; \; function
+a.update() \; if ofelia.upload == 1 then \; imageSequence:init(imageDir
+\, 3 \, ".png" \, 1) \; a.volWidth = imageSequence:getWidth() \; a.volHeight
+= imageSequence:getHeight() \; a.volDepth = imageSequence:getSequenceLength()
+\; a.pixArray = {} \; for i = 1 \, a.volDepth do \; a.pixArray[i] =
+ofPixels() \; end \; print("volWidth:" \, a.volWidth \, "volHeight:"
+\, a.volHeight \, "volDepth:" \, a.volDepth \, "size:" \, a.volWidth
+* a.volHeight * a.volDepth * 4) \; a.fboCells:allocate(a.volWidth \,
+a.volHeight) \; a.volumetrics:setup(a.volWidth \, a.volHeight \, a.volDepth
+\, ofVec3f(1 \, 1 \, 10) \, false) \; a.volumetrics:setRenderSettings(1.0
+\, 1 \, 0.75 \, 0.1) \; for z = 0 \, a.volDepth -1 do \; imageSequence:loadFrame(z)
+\; pix = imageSequence:getPixels() \; pix:setImageType(OF_IMAGE_COLOR_ALPHA)
+\; pix:setChannel(4 \, imageSequence:getPixels()) \; a.volumetrics:loadVolumeData(pix:getData()
+\, a.volWidth \, a.volHeight \, 1 \, 0 \, 0 \, z) \; end \; ofelia.upload
+= 0 \; end \; if a.sequence == 1 then \; counter = (counter + 1) %
+a.interval \; if counter == 0 then \; a.conway() \; end \; else \;
+counter = - 1 \; end \; end \; \; function a.draw() \; cam:beginCamera()
+\; a.volumetrics:drawVolume(0 \, 0 \, 0 \, 512 \, 0) \; cam:endCamera()
+\; end \; \; function a.exit() \; a.volumetrics:destroy() \; pix:clear()
+\; for i = 1 \, a.volDepth do \; a.pixArray[i]:clear() \; end \; end
+\; \;;
+#N canvas 215 614 750 247 Dead_Cells 0;
+#X obj 113 31 tgl 15 0 empty \$0-Dead_Cell_1 empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 188 31 tgl 15 0 empty \$0-Dead_Cell_2 empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 264 31 tgl 15 0 empty \$0-Dead_Cell_3 empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 340 31 tgl 15 0 empty \$0-Dead_Cell_4 empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 415 31 tgl 15 0 empty \$0-Dead_Cell_5 empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 490 31 tgl 15 0 empty \$0-Dead_Cell_6 empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 566 31 tgl 15 0 empty \$0-Dead_Cell_7 empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 642 31 tgl 15 0 empty \$0-Dead_Cell_8 empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 340 72 s \$0-shader;
+#X obj 113 72 s \$0-shader;
+#X obj 188 72 s \$0-shader;
+#X obj 264 72 s \$0-shader;
+#X obj 642 72 s \$0-shader;
+#X obj 415 72 s \$0-shader;
+#X obj 490 72 s \$0-shader;
+#X obj 566 72 s \$0-shader;
+#X msg 340 51 dCell_4 \$1;
+#X msg 113 51 dCell_1 \$1;
+#X msg 188 51 dCell_2 \$1;
+#X msg 264 51 dCell_3 \$1;
+#X msg 415 51 dCell_5 \$1;
+#X msg 490 51 dCell_6 \$1;
+#X msg 566 51 dCell_7 \$1;
+#X msg 642 51 dCell_8 \$1;
+#X obj 38 31 tgl 15 0 empty \$0-Dead_Cell_0 empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 38 72 s \$0-shader;
+#X msg 38 51 dCell_0 \$1;
+#X obj 113 95 tgl 15 0 empty \$0-Dead_Cell_10 empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 188 95 tgl 15 0 empty \$0-Dead_Cell_11 empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 264 95 tgl 15 0 empty \$0-Dead_Cell_12 empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 340 95 tgl 15 0 empty \$0-Dead_Cell_13 empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 415 95 tgl 15 0 empty \$0-Dead_Cell_14 empty 17 7 0 10 -261234
+-1 -1 1 1;
+#X obj 490 95 tgl 15 0 empty \$0-Dead_Cell_15 empty 17 7 0 10 -261234
+-1 -1 1 1;
+#X obj 566 95 tgl 15 0 empty \$0-Dead_Cell_16 empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 642 95 tgl 15 0 empty \$0-Dead_Cell_17 empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 340 136 s \$0-shader;
+#X obj 113 136 s \$0-shader;
+#X obj 188 136 s \$0-shader;
+#X obj 264 136 s \$0-shader;
+#X obj 642 136 s \$0-shader;
+#X obj 415 136 s \$0-shader;
+#X obj 490 136 s \$0-shader;
+#X obj 566 136 s \$0-shader;
+#X obj 38 95 tgl 15 0 empty \$0-Dead_Cell_9 empty 17 7 0 10 -261234
+-1 -1 1 1;
+#X obj 38 136 s \$0-shader;
+#X obj 113 159 tgl 15 0 empty \$0-Dead_Cell_19 empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 188 159 tgl 15 0 empty \$0-Dead_Cell_20 empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 264 159 tgl 15 0 empty \$0-Dead_Cell_21 empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 340 159 tgl 15 0 empty \$0-Dead_Cell_22 empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 415 159 tgl 15 0 empty \$0-Dead_Cell_23 empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 490 159 tgl 15 0 empty \$0-Dead_Cell_24 empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 566 159 tgl 15 0 empty \$0-Dead_Cell_25 empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 642 159 tgl 15 0 empty \$0-Dead_Cell_26 empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 340 200 s \$0-shader;
+#X obj 113 200 s \$0-shader;
+#X obj 188 200 s \$0-shader;
+#X obj 264 200 s \$0-shader;
+#X obj 642 200 s \$0-shader;
+#X obj 415 200 s \$0-shader;
+#X obj 490 200 s \$0-shader;
+#X obj 566 200 s \$0-shader;
+#X obj 38 159 tgl 15 0 empty \$0-Dead_Cell_18 empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 38 200 s \$0-shader;
+#X msg 38 115 dCell_9 \$1;
+#X msg 113 115 dCell_10 \$1;
+#X msg 188 115 dCell_11 \$1;
+#X msg 264 115 dCell_12 \$1;
+#X msg 340 115 dCell_13 \$1;
+#X msg 415 115 dCell_14 \$1;
+#X msg 490 115 dCell_15 \$1;
+#X msg 566 115 dCell_16 \$1;
+#X msg 642 115 dCell_17 \$1;
+#X msg 38 179 dCell_18 \$1;
+#X msg 113 179 dCell_19 \$1;
+#X msg 188 179 dCell_20 \$1;
+#X msg 264 179 dCell_21 \$1;
+#X msg 340 179 dCell_22 \$1;
+#X msg 415 179 dCell_23 \$1;
+#X msg 490 179 dCell_24 \$1;
+#X msg 566 179 dCell_25 \$1;
+#X msg 642 179 dCell_26 \$1;
+#X connect 0 0 17 0;
+#X connect 1 0 18 0;
+#X connect 2 0 19 0;
+#X connect 3 0 16 0;
+#X connect 4 0 20 0;
+#X connect 5 0 21 0;
+#X connect 6 0 22 0;
+#X connect 7 0 23 0;
+#X connect 16 0 8 0;
+#X connect 17 0 9 0;
+#X connect 18 0 10 0;
+#X connect 19 0 11 0;
+#X connect 20 0 13 0;
+#X connect 21 0 14 0;
+#X connect 22 0 15 0;
+#X connect 23 0 12 0;
+#X connect 24 0 26 0;
+#X connect 26 0 25 0;
+#X connect 27 0 64 0;
+#X connect 28 0 65 0;
+#X connect 29 0 66 0;
+#X connect 30 0 67 0;
+#X connect 31 0 68 0;
+#X connect 32 0 69 0;
+#X connect 33 0 70 0;
+#X connect 34 0 71 0;
+#X connect 43 0 63 0;
+#X connect 45 0 73 0;
+#X connect 46 0 74 0;
+#X connect 47 0 75 0;
+#X connect 48 0 76 0;
+#X connect 49 0 77 0;
+#X connect 50 0 78 0;
+#X connect 51 0 79 0;
+#X connect 52 0 80 0;
+#X connect 61 0 72 0;
+#X connect 63 0 44 0;
+#X connect 64 0 36 0;
+#X connect 65 0 37 0;
+#X connect 66 0 38 0;
+#X connect 67 0 35 0;
+#X connect 68 0 40 0;
+#X connect 69 0 41 0;
+#X connect 70 0 42 0;
+#X connect 71 0 39 0;
+#X connect 72 0 62 0;
+#X connect 73 0 54 0;
+#X connect 74 0 55 0;
+#X connect 75 0 56 0;
+#X connect 76 0 53 0;
+#X connect 77 0 58 0;
+#X connect 78 0 59 0;
+#X connect 79 0 60 0;
+#X connect 80 0 57 0;
+#X restore 547 353 pd Dead_Cells;
+#N canvas 216 282 751 263 Living_Cells 0;
+#X obj 109 29 tgl 15 0 empty \$0-Living_Cell_1 empty 17 7 0 10 -204786
+-1 -1 0 1;
+#X obj 184 29 tgl 15 0 empty \$0-Living_Cell_2 empty 17 7 0 10 -204786
+-1 -1 1 1;
+#X obj 260 29 tgl 15 0 empty \$0-Living_Cell_3 empty 17 7 0 10 -204786
+-1 -1 0 1;
+#X obj 336 29 tgl 15 0 empty \$0-Living_Cell_4 empty 17 7 0 10 -204786
+-1 -1 1 1;
+#X obj 411 29 tgl 15 0 empty \$0-Living_Cell_5 empty 17 7 0 10 -204786
+-1 -1 0 1;
+#X obj 486 29 tgl 15 0 empty \$0-Living_Cell_6 empty 17 7 0 10 -204786
+-1 -1 0 1;
+#X obj 562 29 tgl 15 0 empty \$0-Living_Cell_7 empty 17 7 0 10 -204786
+-1 -1 1 1;
+#X obj 638 29 tgl 15 0 empty \$0-Living_Cell_8 empty 17 7 0 10 -204786
+-1 -1 1 1;
+#X msg 336 49 lCell_4 \$1;
+#X obj 336 70 s \$0-shader;
+#X obj 109 70 s \$0-shader;
+#X obj 184 70 s \$0-shader;
+#X obj 260 70 s \$0-shader;
+#X obj 638 70 s \$0-shader;
+#X obj 411 70 s \$0-shader;
+#X obj 486 70 s \$0-shader;
+#X obj 562 70 s \$0-shader;
+#X msg 109 49 lCell_1 \$1;
+#X msg 184 49 lCell_2 \$1;
+#X msg 260 49 lCell_3 \$1;
+#X msg 411 49 lCell_5 \$1;
+#X msg 486 49 lCell_6 \$1;
+#X msg 562 49 lCell_7 \$1;
+#X msg 638 49 lCell_8 \$1;
+#X obj 34 29 tgl 15 0 empty \$0-Living_Cell_0 empty 17 7 0 10 -204786
+-1 -1 0 1;
+#X obj 34 70 s \$0-shader;
+#X msg 34 49 lCell_0 \$1;
+#X obj 109 93 tgl 15 0 empty \$0-Living_Cell_10 empty 17 7 0 10 -204786
+-1 -1 0 1;
+#X obj 184 93 tgl 15 0 empty \$0-Living_Cell_11 empty 17 7 0 10 -204786
+-1 -1 0 1;
+#X obj 260 93 tgl 15 0 empty \$0-Living_Cell_12 empty 17 7 0 10 -204786
+-1 -1 1 1;
+#X obj 336 93 tgl 15 0 empty \$0-Living_Cell_13 empty 17 7 0 10 -204786
+-1 -1 1 1;
+#X obj 411 93 tgl 15 0 empty \$0-Living_Cell_14 empty 17 7 0 10 -204786
+-1 -1 1 1;
+#X obj 486 93 tgl 15 0 empty \$0-Living_Cell_15 empty 17 7 0 10 -204786
+-1 -1 0 1;
+#X obj 562 93 tgl 15 0 empty \$0-Living_Cell_16 empty 17 7 0 10 -204786
+-1 -1 1 1;
+#X obj 638 93 tgl 15 0 empty \$0-Living_Cell_17 empty 17 7 0 10 -204786
+-1 -1 0 1;
+#X obj 336 134 s \$0-shader;
+#X obj 109 134 s \$0-shader;
+#X obj 184 134 s \$0-shader;
+#X obj 260 134 s \$0-shader;
+#X obj 638 134 s \$0-shader;
+#X obj 411 134 s \$0-shader;
+#X obj 486 134 s \$0-shader;
+#X obj 562 134 s \$0-shader;
+#X obj 34 93 tgl 15 0 empty \$0-Living_Cell_9 empty 17 7 0 10 -204786
+-1 -1 0 1;
+#X obj 34 134 s \$0-shader;
+#X obj 109 157 tgl 15 0 empty \$0-Living_Cell_19 empty 17 7 0 10 -204786
+-1 -1 1 1;
+#X obj 184 157 tgl 15 0 empty \$0-Living_Cell_20 empty 17 7 0 10 -204786
+-1 -1 0 1;
+#X obj 260 157 tgl 15 0 empty \$0-Living_Cell_21 empty 17 7 0 10 -204786
+-1 -1 0 1;
+#X obj 336 157 tgl 15 0 empty \$0-Living_Cell_22 empty 17 7 0 10 -204786
+-1 -1 0 1;
+#X obj 411 157 tgl 15 0 empty \$0-Living_Cell_23 empty 17 7 0 10 -204786
+-1 -1 0 1;
+#X obj 486 157 tgl 15 0 empty \$0-Living_Cell_24 empty 17 7 0 10 -204786
+-1 -1 0 1;
+#X obj 562 157 tgl 15 0 empty \$0-Living_Cell_25 empty 17 7 0 10 -204786
+-1 -1 0 1;
+#X obj 638 157 tgl 15 0 empty \$0-Living_Cell_26 empty 17 7 0 10 -204786
+-1 -1 0 1;
+#X obj 336 198 s \$0-shader;
+#X obj 109 198 s \$0-shader;
+#X obj 184 198 s \$0-shader;
+#X obj 260 198 s \$0-shader;
+#X obj 638 198 s \$0-shader;
+#X obj 411 198 s \$0-shader;
+#X obj 486 198 s \$0-shader;
+#X obj 562 198 s \$0-shader;
+#X obj 34 157 tgl 15 0 empty \$0-Living_Cell_18 empty 17 7 0 10 -204786
+-1 -1 0 1;
+#X obj 34 198 s \$0-shader;
+#X msg 34 113 lCell_9 \$1;
+#X msg 109 113 lCell_10 \$1;
+#X msg 184 113 lCell_11 \$1;
+#X msg 260 113 lCell_12 \$1;
+#X msg 336 113 lCell_13 \$1;
+#X msg 411 114 lCell_14 \$1;
+#X msg 486 113 lCell_15 \$1;
+#X msg 562 113 lCell_16 \$1;
+#X msg 638 113 lCell_17 \$1;
+#X msg 34 177 lCell_18 \$1;
+#X msg 109 177 lCell_19 \$1;
+#X msg 184 177 lCell_20 \$1;
+#X msg 260 177 lCell_21 \$1;
+#X msg 336 177 lCell_22 \$1;
+#X msg 411 177 lCell_23 \$1;
+#X msg 486 177 lCell_24 \$1;
+#X msg 562 177 lCell_25 \$1;
+#X msg 638 177 lCell_26 \$1;
+#X connect 0 0 17 0;
+#X connect 1 0 18 0;
+#X connect 2 0 19 0;
+#X connect 3 0 8 0;
+#X connect 4 0 20 0;
+#X connect 5 0 21 0;
+#X connect 6 0 22 0;
+#X connect 7 0 23 0;
+#X connect 8 0 9 0;
+#X connect 17 0 10 0;
+#X connect 18 0 11 0;
+#X connect 19 0 12 0;
+#X connect 20 0 14 0;
+#X connect 21 0 15 0;
+#X connect 22 0 16 0;
+#X connect 23 0 13 0;
+#X connect 24 0 26 0;
+#X connect 26 0 25 0;
+#X connect 27 0 64 0;
+#X connect 28 0 65 0;
+#X connect 29 0 66 0;
+#X connect 30 0 67 0;
+#X connect 31 0 68 0;
+#X connect 32 0 69 0;
+#X connect 33 0 70 0;
+#X connect 34 0 71 0;
+#X connect 43 0 63 0;
+#X connect 45 0 73 0;
+#X connect 46 0 74 0;
+#X connect 47 0 75 0;
+#X connect 48 0 76 0;
+#X connect 49 0 77 0;
+#X connect 50 0 78 0;
+#X connect 51 0 79 0;
+#X connect 52 0 80 0;
+#X connect 61 0 72 0;
+#X connect 63 0 44 0;
+#X connect 64 0 36 0;
+#X connect 65 0 37 0;
+#X connect 66 0 38 0;
+#X connect 67 0 35 0;
+#X connect 68 0 40 0;
+#X connect 69 0 41 0;
+#X connect 70 0 42 0;
+#X connect 71 0 39 0;
+#X connect 72 0 62 0;
+#X connect 73 0 54 0;
+#X connect 74 0 55 0;
+#X connect 75 0 56 0;
+#X connect 76 0 53 0;
+#X connect 77 0 58 0;
+#X connect 78 0 59 0;
+#X connect 79 0 60 0;
+#X connect 80 0 57 0;
+#X restore 547 330 pd Living_Cells;
+#X obj 547 307 ofelia define -k \$0-shader;
+#A __set local a = require("\$0-volumetrics") \; \; function a.conway()
+\; for z = 0 \, a.volDepth -1 do \; a.shaderGameOfLife:beginShader()
+\; a.shaderGameOfLife:setUniform3f("resolution" \, a.volWidth \, a.volHeight
+\, a.volDepth) \; a.shaderGameOfLife:setUniform1f("lCell_0" \, ofelia.lCell_0)
+\; a.shaderGameOfLife:setUniform1f("lCell_1" \, ofelia.lCell_1) \;
+a.shaderGameOfLife:setUniform1f("lCell_2" \, ofelia.lCell_2) \; a.shaderGameOfLife:setUniform1f("lCell_3"
+\, ofelia.lCell_3) \; a.shaderGameOfLife:setUniform1f("lCell_4" \,
+ofelia.lCell_4) \; a.shaderGameOfLife:setUniform1f("lCell_5" \, ofelia.lCell_5)
+\; a.shaderGameOfLife:setUniform1f("lCell_6" \, ofelia.lCell_6) \;
+a.shaderGameOfLife:setUniform1f("lCell_7" \, ofelia.lCell_7) \; a.shaderGameOfLife:setUniform1f("lCell_8"
+\, ofelia.lCell_8) \; a.shaderGameOfLife:setUniform1f("lCell_9" \,
+ofelia.lCell_9) \; a.shaderGameOfLife:setUniform1f("lCell_10" \, ofelia.lCell_10)
+\; a.shaderGameOfLife:setUniform1f("lCell_11" \, ofelia.lCell_11) \;
+a.shaderGameOfLife:setUniform1f("lCell_12" \, ofelia.lCell_12) \; a.shaderGameOfLife:setUniform1f("lCell_13"
+\, ofelia.lCell_13) \; a.shaderGameOfLife:setUniform1f("lCell_14" \,
+ofelia.lCell_14) \; a.shaderGameOfLife:setUniform1f("lCell_15" \, ofelia.lCell_15)
+\; a.shaderGameOfLife:setUniform1f("lCell_16" \, ofelia.lCell_16) \;
+a.shaderGameOfLife:setUniform1f("lCell_17" \, ofelia.lCell_17) \; a.shaderGameOfLife:setUniform1f("lCell_18"
+\, ofelia.lCell_18) \; a.shaderGameOfLife:setUniform1f("lCell_19" \,
+ofelia.lCell_19) \; a.shaderGameOfLife:setUniform1f("lCell_20" \, ofelia.lCell_20)
+\; a.shaderGameOfLife:setUniform1f("lCell_21" \, ofelia.lCell_21) \;
+a.shaderGameOfLife:setUniform1f("lCell_22" \, ofelia.lCell_22) \; a.shaderGameOfLife:setUniform1f("lCell_23"
+\, ofelia.lCell_23) \; a.shaderGameOfLife:setUniform1f("lCell_24" \,
+ofelia.lCell_24) \; a.shaderGameOfLife:setUniform1f("lCell_25" \, ofelia.lCell_25)
+\; a.shaderGameOfLife:setUniform1f("lCell_26" \, ofelia.lCell_26) \;
+a.shaderGameOfLife:setUniform1f("dCell_0" \, ofelia.dCell_0) \; a.shaderGameOfLife:setUniform1f("dCell_1"
+\, ofelia.dCell_1) \; a.shaderGameOfLife:setUniform1f("dCell_2" \,
+ofelia.dCell_2) \; a.shaderGameOfLife:setUniform1f("dCell_3" \, ofelia.dCell_3)
+\; a.shaderGameOfLife:setUniform1f("dCell_4" \, ofelia.dCell_4) \;
+a.shaderGameOfLife:setUniform1f("dCell_5" \, ofelia.dCell_5) \; a.shaderGameOfLife:setUniform1f("dCell_6"
+\, ofelia.dCell_6) \; a.shaderGameOfLife:setUniform1f("dCell_7" \,
+ofelia.dCell_7) \; a.shaderGameOfLife:setUniform1f("dCell_8" \, ofelia.dCell_8)
+\; a.shaderGameOfLife:setUniform1f("dCell_9" \, ofelia.dCell_9) \;
+a.shaderGameOfLife:setUniform1f("dCell_10" \, ofelia.dCell_10) \; a.shaderGameOfLife:setUniform1f("dCell_11"
+\, ofelia.dCell_11) \; a.shaderGameOfLife:setUniform1f("dCell_12" \,
+ofelia.dCell_12) \; a.shaderGameOfLife:setUniform1f("dCell_13" \, ofelia.dCell_13)
+\; a.shaderGameOfLife:setUniform1f("dCell_14" \, ofelia.dCell_14) \;
+a.shaderGameOfLife:setUniform1f("dCell_15" \, ofelia.dCell_15) \; a.shaderGameOfLife:setUniform1f("dCell_16"
+\, ofelia.dCell_16) \; a.shaderGameOfLife:setUniform1f("dCell_17" \,
+ofelia.dCell_17) \; a.shaderGameOfLife:setUniform1f("dCell_18" \, ofelia.dCell_18)
+\; a.shaderGameOfLife:setUniform1f("dCell_19" \, ofelia.dCell_19) \;
+a.shaderGameOfLife:setUniform1f("dCell_20" \, ofelia.dCell_20) \; a.shaderGameOfLife:setUniform1f("dCell_21"
+\, ofelia.dCell_21) \; a.shaderGameOfLife:setUniform1f("dCell_22" \,
+ofelia.dCell_22) \; a.shaderGameOfLife:setUniform1f("dCell_23" \, ofelia.dCell_23)
+\; a.shaderGameOfLife:setUniform1f("dCell_24" \, ofelia.dCell_24) \;
+a.shaderGameOfLife:setUniform1f("dCell_25" \, ofelia.dCell_25) \; a.shaderGameOfLife:setUniform1f("dCell_26"
+\, ofelia.dCell_26) \; a.shaderGameOfLife:setUniform1i("zCount" \,
+z) \; a.fboCells:beginFbo() \; ofClear(0) \; ofDrawRectangle(0 \, 0
+\, 256 \, 256) \; a.fboCells:endFbo() \; a.fboCells:readToPixels(a.pixArray[z
++ 1]) \; a.shaderGameOfLife:endShader() \; end \; for z = 0 \, a.volDepth
+-1 do \; a.volumetrics:loadVolumeData(a.pixArray[z + 1]:getData() \,
+a.volWidth \, a.volHeight \, 1 \, 0 \, 0 \, z) \; end \; end \; \;
+;
+#X obj 547 88 tgl 15 0 empty \$0-Sequence Sequence 17 7 0 10 -257985
+-1 -1 0 1;
+#X obj 192 177 tgl 15 1 \$0-Living_Cell_9 empty empty 17 7 0 10 -204786
+-1 -1 0 1;
+#X obj 208 177 tgl 15 1 \$0-Living_Cell_10 empty empty 17 7 0 10 -204786
+-1 -1 0 1;
+#X obj 224 177 tgl 15 1 \$0-Living_Cell_11 empty empty 17 7 0 10 -204786
+-1 -1 0 1;
+#X obj 240 177 tgl 15 1 \$0-Living_Cell_12 empty empty 17 7 0 10 -204786
+-1 -1 1 1;
+#X obj 256 177 tgl 15 1 \$0-Living_Cell_13 empty empty 17 7 0 10 -204786
+-1 -1 1 1;
+#X obj 272 177 tgl 15 1 \$0-Living_Cell_14 empty empty 17 7 0 10 -204786
+-1 -1 1 1;
+#X obj 288 177 tgl 15 1 \$0-Living_Cell_15 empty empty 17 7 0 10 -204786
+-1 -1 0 1;
+#X obj 304 177 tgl 15 1 \$0-Living_Cell_16 empty empty 17 7 0 10 -204786
+-1 -1 1 1;
+#X obj 192 193 tgl 15 1 \$0-Dead_Cell_9 empty empty 17 7 0 10 -261234
+-1 -1 1 1;
+#X obj 208 193 tgl 15 1 \$0-Dead_Cell_10 empty empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 224 193 tgl 15 1 \$0-Dead_Cell_11 empty empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 240 193 tgl 15 1 \$0-Dead_Cell_12 empty empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 256 193 tgl 15 1 \$0-Dead_Cell_13 empty empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 272 193 tgl 15 1 \$0-Dead_Cell_14 empty empty 17 7 0 10 -261234
+-1 -1 1 1;
+#X obj 288 193 tgl 15 1 \$0-Dead_Cell_15 empty empty 17 7 0 10 -261234
+-1 -1 1 1;
+#X obj 304 193 tgl 15 1 \$0-Dead_Cell_16 empty empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 336 177 tgl 15 1 \$0-Living_Cell_18 empty empty 17 7 0 10 -204786
+-1 -1 0 1;
+#X obj 352 177 tgl 15 1 \$0-Living_Cell_19 empty empty 17 7 0 10 -204786
+-1 -1 1 1;
+#X obj 368 177 tgl 15 1 \$0-Living_Cell_20 empty empty 17 7 0 10 -204786
+-1 -1 0 1;
+#X obj 384 177 tgl 15 1 \$0-Living_Cell_21 empty empty 17 7 0 10 -204786
+-1 -1 0 1;
+#X obj 400 177 tgl 15 1 \$0-Living_Cell_22 empty empty 17 7 0 10 -204786
+-1 -1 0 1;
+#X obj 416 177 tgl 15 1 \$0-Living_Cell_23 empty empty 17 7 0 10 -204786
+-1 -1 0 1;
+#X obj 432 177 tgl 15 1 \$0-Living_Cell_24 empty empty 17 7 0 10 -204786
+-1 -1 0 1;
+#X obj 448 177 tgl 15 1 \$0-Living_Cell_25 empty empty 17 7 0 10 -204786
+-1 -1 0 1;
+#X obj 336 193 tgl 15 1 \$0-Dead_Cell_18 empty empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 352 193 tgl 15 1 \$0-Dead_Cell_19 empty empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 368 193 tgl 15 1 \$0-Dead_Cell_20 empty empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 384 193 tgl 15 1 \$0-Dead_Cell_21 empty empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 400 193 tgl 15 1 \$0-Dead_Cell_22 empty empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 416 193 tgl 15 1 \$0-Dead_Cell_23 empty empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 432 193 tgl 15 1 \$0-Dead_Cell_24 empty empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 448 193 tgl 15 1 \$0-Dead_Cell_25 empty empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 320 177 tgl 15 1 \$0-Living_Cell_17 empty empty 17 7 0 10 -204786
+-1 -1 0 1;
+#X obj 320 193 tgl 15 1 \$0-Dead_Cell_17 empty empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 464 177 tgl 15 1 \$0-Living_Cell_26 empty empty 17 7 0 10 -204786
+-1 -1 0 1;
+#X obj 464 193 tgl 15 1 \$0-Dead_Cell_26 empty empty 17 7 0 10 -261234
+-1 -1 0 1;
+#X obj 48 121 bng 15 250 50 1 \$0-upload empty Reset 17 7 0 10 -257985
+-1 -1;
+#X obj 547 218 bng 15 250 50 0 empty \$0-upload Upload 17 7 0 10 -257985
+-1 -1;
+#X obj 547 261 s \$0-volumetrics;
+#X connect 24 0 31 0;
+#X connect 25 0 24 0;
+#X connect 26 0 29 0;
+#X connect 27 0 30 0;
+#X connect 28 0 26 0;
+#X connect 32 0 76 0;
+#X connect 37 0 27 0;
+#X connect 75 0 32 0;
+#X coords 0 0 510 270 510 270 1 10 10;
+#X restore 21 18 pd \$0-gameofLife;
