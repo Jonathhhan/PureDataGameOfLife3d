@@ -1,5 +1,5 @@
-#N canvas 1166 95 553 308 10;
-#N canvas 1060 185 735 399 \$0-gameofLife 0;
+#N canvas 1177 110 553 308 10;
+#N canvas 1112 198 735 397 \$0-gameofLife 0;
 #X obj 10 10 cnv 15 510 270 empty empty empty 20 12 0 14 -257985 -66577
 0;
 #X obj 20 20 cnv 15 490 250 empty empty Game_of_Life_3d 110 50 0 30
@@ -47,7 +47,7 @@
 #X obj 188 158 nbx 5 14 1 1000 0 1 \$0-Interval empty Interval 56 7
 0 10 -257985 -1 -1 10 256;
 #X obj 112 157 tgl 15 0 \$0-Sequence empty Sequence 17 7 0 10 -257985
--1 -1 0 1;
+-1 -1 1 1;
 #X msg 547 44 interval \$1;
 #X obj 547 25 nbx 5 14 -1e+37 1e+37 0 0 empty \$0-Interval Interval
 0 -8 0 10 -257985 -1 -1 10 256;
@@ -93,10 +93,10 @@ a.volHeight) \; a.volumetrics:setup(a.volWidth \, a.volHeight \, a.volDepth
 = 0 \; end \; if a.sequence == 1 then \; counter = (counter + 1) %
 a.interval \; if counter == 0 then \; a.conway() \; end \; else \;
 counter = - 1 \; end \; end \; \; function a.draw() \; cam:beginCamera()
-\; a.volumetrics:drawVolume(0 \, 0 \, 0 \, 512 \, 0) \; cam:endCamera()
-\; end \; \; function a.exit() \; a.volumetrics:destroy() \; pix:clear()
-\; for i = 1 \, a.volDepth do \; a.pixArray[i]:clear() \; end \; end
-\; \;;
+\; a.volumetrics:drawVolume(0 \, 0 \, 0 \, ofGetHeight() / 2 \, 0)
+\; cam:endCamera() \; end \; \; function a.exit() \; a.volumetrics:destroy()
+\; pix:clear() \; for i = 1 \, a.volDepth do \; a.pixArray[i]:clear()
+\; end \; end \; \;;
 #N canvas 215 614 750 247 Dead_Cells 0;
 #X obj 113 31 tgl 15 0 empty \$0-Dead_Cell_1 empty 17 7 0 10 -261234
 -1 -1 0 1;
@@ -261,7 +261,7 @@ counter = - 1 \; end \; end \; \; function a.draw() \; cam:beginCamera()
 #X connect 79 0 60 0;
 #X connect 80 0 57 0;
 #X restore 547 353 pd Dead_Cells;
-#N canvas 216 282 751 263 Living_Cells 0;
+#N canvas 169 282 751 263 Living_Cells 0;
 #X obj 109 29 tgl 15 0 empty \$0-Living_Cell_1 empty 17 7 0 10 -204786
 -1 -1 0 1;
 #X obj 184 29 tgl 15 0 empty \$0-Living_Cell_2 empty 17 7 0 10 -204786
@@ -425,62 +425,8 @@ counter = - 1 \; end \; end \; \; function a.draw() \; cam:beginCamera()
 #X connect 79 0 60 0;
 #X connect 80 0 57 0;
 #X restore 547 330 pd Living_Cells;
-#X obj 547 307 ofelia define -k \$0-shader;
-#A __set local a = require("\$0-volumetrics") \; \; function a.conway()
-\; for z = 0 \, a.volDepth -1 do \; a.shaderGameOfLife:beginShader()
-\; a.shaderGameOfLife:setUniform3f("resolution" \, a.volWidth \, a.volHeight
-\, a.volDepth) \; a.shaderGameOfLife:setUniform1f("lCell_0" \, ofelia.lCell_0)
-\; a.shaderGameOfLife:setUniform1f("lCell_1" \, ofelia.lCell_1) \;
-a.shaderGameOfLife:setUniform1f("lCell_2" \, ofelia.lCell_2) \; a.shaderGameOfLife:setUniform1f("lCell_3"
-\, ofelia.lCell_3) \; a.shaderGameOfLife:setUniform1f("lCell_4" \,
-ofelia.lCell_4) \; a.shaderGameOfLife:setUniform1f("lCell_5" \, ofelia.lCell_5)
-\; a.shaderGameOfLife:setUniform1f("lCell_6" \, ofelia.lCell_6) \;
-a.shaderGameOfLife:setUniform1f("lCell_7" \, ofelia.lCell_7) \; a.shaderGameOfLife:setUniform1f("lCell_8"
-\, ofelia.lCell_8) \; a.shaderGameOfLife:setUniform1f("lCell_9" \,
-ofelia.lCell_9) \; a.shaderGameOfLife:setUniform1f("lCell_10" \, ofelia.lCell_10)
-\; a.shaderGameOfLife:setUniform1f("lCell_11" \, ofelia.lCell_11) \;
-a.shaderGameOfLife:setUniform1f("lCell_12" \, ofelia.lCell_12) \; a.shaderGameOfLife:setUniform1f("lCell_13"
-\, ofelia.lCell_13) \; a.shaderGameOfLife:setUniform1f("lCell_14" \,
-ofelia.lCell_14) \; a.shaderGameOfLife:setUniform1f("lCell_15" \, ofelia.lCell_15)
-\; a.shaderGameOfLife:setUniform1f("lCell_16" \, ofelia.lCell_16) \;
-a.shaderGameOfLife:setUniform1f("lCell_17" \, ofelia.lCell_17) \; a.shaderGameOfLife:setUniform1f("lCell_18"
-\, ofelia.lCell_18) \; a.shaderGameOfLife:setUniform1f("lCell_19" \,
-ofelia.lCell_19) \; a.shaderGameOfLife:setUniform1f("lCell_20" \, ofelia.lCell_20)
-\; a.shaderGameOfLife:setUniform1f("lCell_21" \, ofelia.lCell_21) \;
-a.shaderGameOfLife:setUniform1f("lCell_22" \, ofelia.lCell_22) \; a.shaderGameOfLife:setUniform1f("lCell_23"
-\, ofelia.lCell_23) \; a.shaderGameOfLife:setUniform1f("lCell_24" \,
-ofelia.lCell_24) \; a.shaderGameOfLife:setUniform1f("lCell_25" \, ofelia.lCell_25)
-\; a.shaderGameOfLife:setUniform1f("lCell_26" \, ofelia.lCell_26) \;
-a.shaderGameOfLife:setUniform1f("dCell_0" \, ofelia.dCell_0) \; a.shaderGameOfLife:setUniform1f("dCell_1"
-\, ofelia.dCell_1) \; a.shaderGameOfLife:setUniform1f("dCell_2" \,
-ofelia.dCell_2) \; a.shaderGameOfLife:setUniform1f("dCell_3" \, ofelia.dCell_3)
-\; a.shaderGameOfLife:setUniform1f("dCell_4" \, ofelia.dCell_4) \;
-a.shaderGameOfLife:setUniform1f("dCell_5" \, ofelia.dCell_5) \; a.shaderGameOfLife:setUniform1f("dCell_6"
-\, ofelia.dCell_6) \; a.shaderGameOfLife:setUniform1f("dCell_7" \,
-ofelia.dCell_7) \; a.shaderGameOfLife:setUniform1f("dCell_8" \, ofelia.dCell_8)
-\; a.shaderGameOfLife:setUniform1f("dCell_9" \, ofelia.dCell_9) \;
-a.shaderGameOfLife:setUniform1f("dCell_10" \, ofelia.dCell_10) \; a.shaderGameOfLife:setUniform1f("dCell_11"
-\, ofelia.dCell_11) \; a.shaderGameOfLife:setUniform1f("dCell_12" \,
-ofelia.dCell_12) \; a.shaderGameOfLife:setUniform1f("dCell_13" \, ofelia.dCell_13)
-\; a.shaderGameOfLife:setUniform1f("dCell_14" \, ofelia.dCell_14) \;
-a.shaderGameOfLife:setUniform1f("dCell_15" \, ofelia.dCell_15) \; a.shaderGameOfLife:setUniform1f("dCell_16"
-\, ofelia.dCell_16) \; a.shaderGameOfLife:setUniform1f("dCell_17" \,
-ofelia.dCell_17) \; a.shaderGameOfLife:setUniform1f("dCell_18" \, ofelia.dCell_18)
-\; a.shaderGameOfLife:setUniform1f("dCell_19" \, ofelia.dCell_19) \;
-a.shaderGameOfLife:setUniform1f("dCell_20" \, ofelia.dCell_20) \; a.shaderGameOfLife:setUniform1f("dCell_21"
-\, ofelia.dCell_21) \; a.shaderGameOfLife:setUniform1f("dCell_22" \,
-ofelia.dCell_22) \; a.shaderGameOfLife:setUniform1f("dCell_23" \, ofelia.dCell_23)
-\; a.shaderGameOfLife:setUniform1f("dCell_24" \, ofelia.dCell_24) \;
-a.shaderGameOfLife:setUniform1f("dCell_25" \, ofelia.dCell_25) \; a.shaderGameOfLife:setUniform1f("dCell_26"
-\, ofelia.dCell_26) \; a.shaderGameOfLife:setUniform1i("zCount" \,
-z) \; a.fboCells:beginFbo() \; ofClear(0) \; ofDrawRectangle(0 \, 0
-\, a.volWidth \, a.volHeight) \; a.fboCells:endFbo() \; a.fboCells:readToPixels(a.pixArray[z
-+ 1]) \; a.shaderGameOfLife:endShader() \; end \; for z = 0 \, a.volDepth
--1 do \; a.volumetrics:loadVolumeData(a.pixArray[z + 1]:getData() \,
-a.volWidth \, a.volHeight \, 1 \, 0 \, 0 \, z) \; end \; end \; \;
-;
 #X obj 547 88 tgl 15 0 empty \$0-Sequence Sequence 17 7 0 10 -257985
--1 -1 0 1;
+-1 -1 1 1;
 #X obj 192 177 tgl 15 1 \$0-Living_Cell_9 empty empty 17 7 0 10 -204786
 -1 -1 0 1;
 #X obj 208 177 tgl 15 1 \$0-Living_Cell_10 empty empty 17 7 0 10 -204786
@@ -558,13 +504,67 @@ a.volWidth \, a.volHeight \, 1 \, 0 \, 0 \, z) \; end \; end \; \;
 #X obj 547 218 bng 15 250 50 0 empty \$0-upload Upload 17 7 0 10 -257985
 -1 -1;
 #X obj 547 261 s \$0-volumetrics;
+#X obj 547 307 ofelia d -k \$0-shader;
+#A __set local a = require("\$0-volumetrics") \; \; function a.conway()
+\; for z = 0 \, a.volDepth -1 do \; a.shaderGameOfLife:beginShader()
+\; a.shaderGameOfLife:setUniform3f("resolution" \, a.volWidth \, a.volHeight
+\, a.volDepth) \; a.shaderGameOfLife:setUniform1f("lCell_0" \, ofelia.lCell_0)
+\; a.shaderGameOfLife:setUniform1f("lCell_1" \, ofelia.lCell_1) \;
+a.shaderGameOfLife:setUniform1f("lCell_2" \, ofelia.lCell_2) \; a.shaderGameOfLife:setUniform1f("lCell_3"
+\, ofelia.lCell_3) \; a.shaderGameOfLife:setUniform1f("lCell_4" \,
+ofelia.lCell_4) \; a.shaderGameOfLife:setUniform1f("lCell_5" \, ofelia.lCell_5)
+\; a.shaderGameOfLife:setUniform1f("lCell_6" \, ofelia.lCell_6) \;
+a.shaderGameOfLife:setUniform1f("lCell_7" \, ofelia.lCell_7) \; a.shaderGameOfLife:setUniform1f("lCell_8"
+\, ofelia.lCell_8) \; a.shaderGameOfLife:setUniform1f("lCell_9" \,
+ofelia.lCell_9) \; a.shaderGameOfLife:setUniform1f("lCell_10" \, ofelia.lCell_10)
+\; a.shaderGameOfLife:setUniform1f("lCell_11" \, ofelia.lCell_11) \;
+a.shaderGameOfLife:setUniform1f("lCell_12" \, ofelia.lCell_12) \; a.shaderGameOfLife:setUniform1f("lCell_13"
+\, ofelia.lCell_13) \; a.shaderGameOfLife:setUniform1f("lCell_14" \,
+ofelia.lCell_14) \; a.shaderGameOfLife:setUniform1f("lCell_15" \, ofelia.lCell_15)
+\; a.shaderGameOfLife:setUniform1f("lCell_16" \, ofelia.lCell_16) \;
+a.shaderGameOfLife:setUniform1f("lCell_17" \, ofelia.lCell_17) \; a.shaderGameOfLife:setUniform1f("lCell_18"
+\, ofelia.lCell_18) \; a.shaderGameOfLife:setUniform1f("lCell_19" \,
+ofelia.lCell_19) \; a.shaderGameOfLife:setUniform1f("lCell_20" \, ofelia.lCell_20)
+\; a.shaderGameOfLife:setUniform1f("lCell_21" \, ofelia.lCell_21) \;
+a.shaderGameOfLife:setUniform1f("lCell_22" \, ofelia.lCell_22) \; a.shaderGameOfLife:setUniform1f("lCell_23"
+\, ofelia.lCell_23) \; a.shaderGameOfLife:setUniform1f("lCell_24" \,
+ofelia.lCell_24) \; a.shaderGameOfLife:setUniform1f("lCell_25" \, ofelia.lCell_25)
+\; a.shaderGameOfLife:setUniform1f("lCell_26" \, ofelia.lCell_26) \;
+a.shaderGameOfLife:setUniform1f("dCell_0" \, ofelia.dCell_0) \; a.shaderGameOfLife:setUniform1f("dCell_1"
+\, ofelia.dCell_1) \; a.shaderGameOfLife:setUniform1f("dCell_2" \,
+ofelia.dCell_2) \; a.shaderGameOfLife:setUniform1f("dCell_3" \, ofelia.dCell_3)
+\; a.shaderGameOfLife:setUniform1f("dCell_4" \, ofelia.dCell_4) \;
+a.shaderGameOfLife:setUniform1f("dCell_5" \, ofelia.dCell_5) \; a.shaderGameOfLife:setUniform1f("dCell_6"
+\, ofelia.dCell_6) \; a.shaderGameOfLife:setUniform1f("dCell_7" \,
+ofelia.dCell_7) \; a.shaderGameOfLife:setUniform1f("dCell_8" \, ofelia.dCell_8)
+\; a.shaderGameOfLife:setUniform1f("dCell_9" \, ofelia.dCell_9) \;
+a.shaderGameOfLife:setUniform1f("dCell_10" \, ofelia.dCell_10) \; a.shaderGameOfLife:setUniform1f("dCell_11"
+\, ofelia.dCell_11) \; a.shaderGameOfLife:setUniform1f("dCell_12" \,
+ofelia.dCell_12) \; a.shaderGameOfLife:setUniform1f("dCell_13" \, ofelia.dCell_13)
+\; a.shaderGameOfLife:setUniform1f("dCell_14" \, ofelia.dCell_14) \;
+a.shaderGameOfLife:setUniform1f("dCell_15" \, ofelia.dCell_15) \; a.shaderGameOfLife:setUniform1f("dCell_16"
+\, ofelia.dCell_16) \; a.shaderGameOfLife:setUniform1f("dCell_17" \,
+ofelia.dCell_17) \; a.shaderGameOfLife:setUniform1f("dCell_18" \, ofelia.dCell_18)
+\; a.shaderGameOfLife:setUniform1f("dCell_19" \, ofelia.dCell_19) \;
+a.shaderGameOfLife:setUniform1f("dCell_20" \, ofelia.dCell_20) \; a.shaderGameOfLife:setUniform1f("dCell_21"
+\, ofelia.dCell_21) \; a.shaderGameOfLife:setUniform1f("dCell_22" \,
+ofelia.dCell_22) \; a.shaderGameOfLife:setUniform1f("dCell_23" \, ofelia.dCell_23)
+\; a.shaderGameOfLife:setUniform1f("dCell_24" \, ofelia.dCell_24) \;
+a.shaderGameOfLife:setUniform1f("dCell_25" \, ofelia.dCell_25) \; a.shaderGameOfLife:setUniform1f("dCell_26"
+\, ofelia.dCell_26) \; a.shaderGameOfLife:setUniform1i("zCount" \,
+z) \; a.fboCells:beginFbo() \; ofClear(0) \; ofDrawRectangle(0 \, 0
+\, a.volWidth \, a.volHeight) \; a.fboCells:endFbo() \; a.fboCells:readToPixels(a.pixArray[z
++ 1]) \; a.shaderGameOfLife:endShader() \; end \; for z = 0 \, a.volDepth
+-1 do \; a.volumetrics:loadVolumeData(a.pixArray[z + 1]:getData() \,
+a.volWidth \, a.volHeight \, 1 \, 0 \, 0 \, z) \; end \; end \; \;
+;
 #X connect 24 0 31 0;
 #X connect 25 0 24 0;
 #X connect 26 0 29 0;
 #X connect 27 0 30 0;
 #X connect 28 0 26 0;
-#X connect 32 0 76 0;
-#X connect 37 0 27 0;
-#X connect 75 0 32 0;
+#X connect 32 0 75 0;
+#X connect 36 0 27 0;
+#X connect 74 0 32 0;
 #X coords 0 0 510 270 510 270 1 10 10;
 #X restore 21 18 pd \$0-gameofLife;
