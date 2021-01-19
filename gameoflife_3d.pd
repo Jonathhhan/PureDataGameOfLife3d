@@ -1,5 +1,5 @@
-#N canvas 1132 89 553 307 10;
-#N canvas 1097 238 735 397 \$0-gameofLife 0;
+#N canvas 1271 156 553 307 10;
+#N canvas 1170 229 735 397 \$0-gameofLife 0;
 #X obj 10 10 cnv 15 510 270 empty empty empty 20 12 0 14 -257985 -66577
 0;
 #X obj 20 20 cnv 15 490 250 empty empty Game_of_Life_3d 110 50 0 30
@@ -7,17 +7,17 @@
 #X obj 39 153 cnv 15 450 60 empty empty empty 20 12 0 14 -262144 -66577
 0;
 #X obj 64 177 tgl 15 1 \$0-Living_Cell_1 empty empty 17 7 0 10 -204786
--1 -1 0 1;
+-1 -1 1 1;
 #X obj 80 177 tgl 15 1 \$0-Living_Cell_2 empty empty 17 7 0 10 -204786
 -1 -1 1 1;
 #X obj 96 177 tgl 15 1 \$0-Living_Cell_3 empty empty 17 7 0 10 -204786
--1 -1 0 1;
+-1 -1 1 1;
 #X obj 112 177 tgl 15 1 \$0-Living_Cell_4 empty empty 17 7 0 10 -204786
 -1 -1 1 1;
 #X obj 128 177 tgl 15 1 \$0-Living_Cell_5 empty empty 17 7 0 10 -204786
--1 -1 0 1;
+-1 -1 1 1;
 #X obj 144 177 tgl 15 1 \$0-Living_Cell_6 empty empty 17 7 0 10 -204786
--1 -1 0 1;
+-1 -1 1 1;
 #X obj 160 177 tgl 15 1 \$0-Living_Cell_7 empty empty 17 7 0 10 -204786
 -1 -1 1 1;
 #X obj 176 177 tgl 15 1 \$0-Living_Cell_8 empty empty 17 7 0 10 -204786
@@ -43,14 +43,14 @@
 #X obj 48 193 tgl 15 1 \$0-Dead_Cell_0 empty empty 17 7 0 10 -261234
 -1 -1 0 1;
 #X obj 48 177 tgl 15 1 \$0-Living_Cell_0 empty empty 17 7 0 10 -204786
--1 -1 0 1;
-#X obj 188 158 nbx 5 14 1 1000 0 1 \$0-Interval empty Interval 56 7
-0 10 -257985 -1 -1 10 256;
-#X obj 112 157 tgl 15 0 \$0-Sequence empty Sequence 17 7 0 10 -257985
 -1 -1 1 1;
+#X obj 188 158 nbx 5 14 1 1000 0 1 \$0-Interval empty Interval 56 7
+0 10 -257985 -1 -1 1 256;
+#X obj 112 157 tgl 15 0 \$0-Sequence empty Sequence 17 7 0 10 -257985
+-1 -1 0 1;
 #X msg 547 44 interval \$1;
 #X obj 547 25 nbx 5 14 -1e+37 1e+37 0 0 empty \$0-Interval Interval
-0 -8 0 10 -257985 -1 -1 10 256;
+0 -8 0 10 -257985 -1 -1 1 256;
 #X msg 547 172 conway;
 #X msg 547 108 sequence \$1;
 #X obj 547 152 bng 15 250 50 0 empty \$0-Iterate Iterate 17 7 0 10
@@ -66,9 +66,9 @@ clock = ofClock(this \, "setup") \; local imageDir = canvas:getDir()
 .. "/images/cthead-8bit" \; local shaderDir = canvas:getDir() .. "/shader/"
 \; local pix = ofPixels() \; a.volumetrics = ofVolumetrics() \; local
 imageSequence = ofImageSequencePlayer() \; a.volWidth \, a.volHeight
-\, a.volDepth \, counter = 0 \, 0 \, 0 \, -1 \; a.fboCells = ofFbo()
-\; a.shaderGameOfLife = ofShader() \; cam = ofEasyCam() \; \; function
-a.new() \; ofWindow.addListener("setup" \, this) \; ofWindow.addListener("update"
+\, a.volDepth = 0 \, 0 \, 0 \; local counter = - 1 \; a.fboCells =
+ofFbo() \; a.shaderGameOfLife = ofShader() \; cam = ofEasyCam() \;
+\; function a.new() \; ofWindow.addListener("setup" \, this) \; ofWindow.addListener("update"
 \, this) \; ofWindow.addListener("draw" \, this) \; ofWindow.addListener("exit"
 \, this) \; window:setPosition(30 \, 100) \; window:setSize(1024 \,
 1024) \; if ofWindow.exists then \; clock:delay(0) \; else \; window:create()
@@ -263,17 +263,17 @@ counter = - 1 \; end \; end \; \; function a.draw() \; cam:beginCamera()
 #X restore 547 353 pd Dead_Cells;
 #N canvas 169 282 751 263 Living_Cells 0;
 #X obj 109 29 tgl 15 0 empty \$0-Living_Cell_1 empty 17 7 0 10 -204786
--1 -1 0 1;
+-1 -1 1 1;
 #X obj 184 29 tgl 15 0 empty \$0-Living_Cell_2 empty 17 7 0 10 -204786
 -1 -1 1 1;
 #X obj 260 29 tgl 15 0 empty \$0-Living_Cell_3 empty 17 7 0 10 -204786
--1 -1 0 1;
+-1 -1 1 1;
 #X obj 336 29 tgl 15 0 empty \$0-Living_Cell_4 empty 17 7 0 10 -204786
 -1 -1 1 1;
 #X obj 411 29 tgl 15 0 empty \$0-Living_Cell_5 empty 17 7 0 10 -204786
--1 -1 0 1;
+-1 -1 1 1;
 #X obj 486 29 tgl 15 0 empty \$0-Living_Cell_6 empty 17 7 0 10 -204786
--1 -1 0 1;
+-1 -1 1 1;
 #X obj 562 29 tgl 15 0 empty \$0-Living_Cell_7 empty 17 7 0 10 -204786
 -1 -1 1 1;
 #X obj 638 29 tgl 15 0 empty \$0-Living_Cell_8 empty 17 7 0 10 -204786
@@ -295,7 +295,7 @@ counter = - 1 \; end \; end \; \; function a.draw() \; cam:beginCamera()
 #X msg 562 49 lCell_7 \$1;
 #X msg 638 49 lCell_8 \$1;
 #X obj 34 29 tgl 15 0 empty \$0-Living_Cell_0 empty 17 7 0 10 -204786
--1 -1 0 1;
+-1 -1 1 1;
 #X obj 34 70 s \$0-shader;
 #X msg 34 49 lCell_0 \$1;
 #X obj 109 93 tgl 15 0 empty \$0-Living_Cell_10 empty 17 7 0 10 -204786
@@ -426,7 +426,7 @@ counter = - 1 \; end \; end \; \; function a.draw() \; cam:beginCamera()
 #X connect 80 0 57 0;
 #X restore 547 330 pd Living_Cells;
 #X obj 547 88 tgl 15 0 empty \$0-Sequence Sequence 17 7 0 10 -257985
--1 -1 1 1;
+-1 -1 0 1;
 #X obj 192 177 tgl 15 1 \$0-Living_Cell_9 empty empty 17 7 0 10 -204786
 -1 -1 0 1;
 #X obj 208 177 tgl 15 1 \$0-Living_Cell_10 empty empty 17 7 0 10 -204786
@@ -506,7 +506,7 @@ counter = - 1 \; end \; end \; \; function a.draw() \; cam:beginCamera()
 #X obj 547 261 s \$0-volumetrics;
 #X obj 547 307 ofelia d -k \$0-shader;
 #A __set local a = require("\$0-volumetrics") \; \; function a.conway()
-\; for z = 0 \, a.volDepth -1 do \; a.shaderGameOfLife:beginShader()
+\; for z = 0 \, a.volDepth - 1 do \; a.shaderGameOfLife:beginShader()
 \; a.shaderGameOfLife:setUniform3f("resolution" \, a.volWidth \, a.volHeight
 \, a.volDepth) \; a.shaderGameOfLife:setUniform1f("lCell_0" \, ofelia.lCell_0)
 \; a.shaderGameOfLife:setUniform1f("lCell_1" \, ofelia.lCell_1) \;
@@ -555,9 +555,9 @@ a.shaderGameOfLife:setUniform1f("dCell_25" \, ofelia.dCell_25) \; a.shaderGameOf
 z) \; a.fboCells:beginFbo() \; ofClear(0) \; ofDrawRectangle(0 \, 0
 \, a.volWidth \, a.volHeight) \; a.fboCells:endFbo() \; a.fboCells:readToPixels(a.pixArray[z
 + 1]) \; a.shaderGameOfLife:endShader() \; end \; for z = 0 \, a.volDepth
--1 do \; a.volumetrics:loadVolumeData(a.pixArray[z + 1]:getData() \,
-a.volWidth \, a.volHeight \, 1 \, 0 \, 0 \, z) \; end \; end \; \;
-;
+- 1 do \; a.volumetrics:loadVolumeData(a.pixArray[z + 1]:getData()
+\, a.volWidth \, a.volHeight \, 1 \, 0 \, 0 \, z) \; end \; end \;
+\;;
 #X connect 24 0 31 0;
 #X connect 25 0 24 0;
 #X connect 26 0 29 0;
