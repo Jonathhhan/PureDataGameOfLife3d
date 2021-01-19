@@ -1,5 +1,5 @@
-#N canvas 1168 121 553 308 10;
-#N canvas 1112 256 735 397 \$0-gameofLife 0;
+#N canvas 1132 89 553 307 10;
+#N canvas 1097 238 735 397 \$0-gameofLife 0;
 #X obj 10 10 cnv 15 510 270 empty empty empty 20 12 0 14 -257985 -66577
 0;
 #X obj 20 20 cnv 15 490 250 empty empty Game_of_Life_3d 110 50 0 30
@@ -93,7 +93,7 @@ a.volHeight) \; a.volumetrics:setup(a.volWidth \, a.volHeight \, a.volDepth
 = 0 \; end \; if a.sequence == 1 then \; counter = (counter + 1) %
 a.interval \; if counter == 0 then \; a.conway() \; end \; else \;
 counter = - 1 \; end \; end \; \; function a.draw() \; cam:beginCamera()
-\; a.volumetrics:drawVolume(0 \, 0 \, 0 \, ofGetHeight() / 1.5 \, 0)
+\; a.volumetrics:drawVolume(0 \, 0 \, 0 \, ofGetHeight() / 2 \, 0)
 \; cam:endCamera() \; end \; \; function a.exit() \; a.volumetrics:destroy()
 \; pix:clear() \; for i = 1 \, a.volDepth do \; a.pixArray[i]:clear()
 \; end \; end \; \;;
