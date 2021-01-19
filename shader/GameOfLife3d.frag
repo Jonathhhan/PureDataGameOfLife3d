@@ -3,7 +3,6 @@
 
 uniform sampler3D Tex0;
 uniform vec3 resolution;
-
 uniform int zCount;
 uniform float lCell_0;
 uniform float lCell_1;
@@ -91,7 +90,7 @@ vec2 rule[27] = vec2[27](
 );
 
 int get(int x, int y, int z) {
-	return int(texture3D(Tex0, (gl_FragCoord.xyz + vec3(x, y, zCount -z)) / resolution).r);
+	return int(texture3D(Tex0, (gl_FragCoord.xyz + vec3(x, y, zCount - z)) / resolution).r);
 }
 
 void main() {
