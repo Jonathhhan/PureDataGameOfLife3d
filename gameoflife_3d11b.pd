@@ -1,5 +1,5 @@
-#N canvas 1159 157 551 307 10;
-#N canvas 1185 310 735 397 \$0-gameofLife 0;
+#N canvas 1228 153 551 307 10;
+#N canvas 1132 313 735 397 \$0-gameofLife 0;
 #X obj 10 10 cnv 15 510 270 empty empty empty 20 12 0 14 -257985 -66577
 0;
 #X obj 20 20 cnv 15 490 250 empty empty Game_of_Life_3d 110 50 0 30
@@ -47,7 +47,7 @@
 #X obj 188 158 nbx 5 14 1 1000 0 1 \$0-Interval empty Interval 56 7
 0 10 -257985 -1 -1 1 256;
 #X obj 112 157 tgl 15 0 \$0-Sequence empty Sequence 17 7 0 10 -257985
--1 -1 1 1;
+-1 -1 0 1;
 #X msg 547 44 interval \$1;
 #X obj 547 25 nbx 5 14 -1e+37 1e+37 0 0 empty \$0-Interval Interval
 0 -8 0 10 -257985 -1 -1 1 256;
@@ -65,11 +65,11 @@
 clock = ofClock(this \, "setup") \; local imageDir = canvas:getDir()
 .. "/images/Image" \; local shaderDir = canvas:getDir() .. "/shader/"
 \; local pix = ofPixels() \; a.pix = ofPixels() \; a.volumetrics =
-ofVolumetrics() \; local imageSequence = ofImageSequencePlayer() \;
-a.volWidth \, a.volHeight \, a.volDepth = 0 \, 0 \, 0 \; local counter
-= - 1 \; a.fboCells = ofFbo() \; a.shaderGameOfLife = ofShader() \;
-cam = ofEasyCam() \; \; function a.new() \; ofWindow.addListener("setup"
-\, this) \; ofWindow.addListener("update" \, this) \; ofWindow.addListener("draw"
+ofVolumetrics() \; a.fbo = ofFbo() \; a.shaderGameOfLife = ofShader()
+\; cam = ofEasyCam() \; local imageSequence = ofImageSequencePlayer()
+\; a.volWidth \, a.volHeight \, a.volDepth = 0 \, 0 \, 0 \; local counter
+= - 1 \; \; function a.new() \; ofWindow.addListener("setup" \, this)
+\; ofWindow.addListener("update" \, this) \; ofWindow.addListener("draw"
 \, this) \; ofWindow.addListener("exit" \, this) \; window:setPosition(30
 \, 100) \; window:setSize(1024 \, 1024) \; if ofWindow.exists then
 \; clock:delay(0) \; else \; window:create() \; end \; end \; \; function
@@ -83,10 +83,9 @@ a.update() \; if ofelia.upload == 1 then \; a.count = - 1 \; imageSequence:init(
 = imageSequence:getHeight() \; a.volDepth = imageSequence:getSequenceLength()
 \; print("volWidth:" \, a.volWidth \, "volHeight:" \, a.volHeight \,
 "volDepth:" \, a.volDepth \, "size:" \, a.volWidth * a.volHeight *
-a.volDepth * 4) \; a.fboCells:allocate(a.volWidth \, a.volHeight) \;
-a.volumetrics:setup(a.volWidth \, a.volHeight \, a.volDepth \, ofVec3f(1
-\, 1 \, 1) \, false) \; a.volumetrics:setRenderSettings(1.0 \, 5 \,
-1 \, 0.1) \; for z = 0 \, a.volDepth -1 do \; imageSequence:loadFrame(z)
+a.volDepth * 4) \; a.fbo:allocate(a.volWidth \, a.volHeight) \; a.volumetrics:setup(a.volWidth
+\, a.volHeight \, a.volDepth \, ofVec3f(1 \, 1 \, 1) \, false) \; a.volumetrics:setRenderSettings(1.0
+\, 5 \, 1 \, 0.1) \; for z = 0 \, a.volDepth -1 do \; imageSequence:loadFrame(z)
 \; pix = imageSequence:getPixels() \; pix:setImageType(OF_IMAGE_COLOR_ALPHA)
 \; pix:setChannel(4 \, imageSequence:getPixels()) \; a.volumetrics:loadVolumeData(pix:getData()
 \, a.volWidth \, a.volHeight \, 1 \, 0 \, 0 \, z) \; pix:clear() \;
@@ -95,9 +94,9 @@ end \; ofelia.upload = 0 \; end \; if a.sequence == 1 then \; counter
 \; end \; else \; counter = - 1 \; end \; end \; \; function a.draw()
 \; cam:beginCamera() \; a.volumetrics:drawVolume(0 \, 0 \, 1 \, ofGetHeight()
 / 2 \, (a.count +2) % a.volDepth) \; cam:endCamera() \; end \; \; function
-a.exit() \; a.volumetrics:destroy() \; a.fboCells:clear() \; a.shaderGameOfLife:unload()
+a.exit() \; a.volumetrics:destroy() \; a.fbo:clear() \; a.shaderGameOfLife:unload()
 \; pix:clear() \; a.pix:clear() \; end \; \;;
-#N canvas 215 614 750 247 Dead_Cells 0;
+#N canvas 67 616 750 247 Dead_Cells 0;
 #X obj 113 31 tgl 15 0 empty \$0-Dead_Cell_1 empty 17 7 0 10 -261234
 -1 -1 0 1;
 #X obj 188 31 tgl 15 0 empty \$0-Dead_Cell_2 empty 17 7 0 10 -261234
@@ -426,7 +425,7 @@ a.exit() \; a.volumetrics:destroy() \; a.fboCells:clear() \; a.shaderGameOfLife:
 #X connect 80 0 57 0;
 #X restore 547 330 pd Living_Cells;
 #X obj 547 88 tgl 15 0 empty \$0-Sequence Sequence 17 7 0 10 -257985
--1 -1 1 1;
+-1 -1 0 1;
 #X obj 192 177 tgl 15 1 \$0-Living_Cell_9 empty empty 17 7 0 10 -204786
 -1 -1 0 1;
 #X obj 208 177 tgl 15 1 \$0-Living_Cell_10 empty empty 17 7 0 10 -204786
@@ -552,15 +551,11 @@ ofelia.dCell_22) \; a.shaderGameOfLife:setUniform1f("dCell_23" \, ofelia.dCell_2
 \; a.shaderGameOfLife:setUniform1f("dCell_24" \, ofelia.dCell_24) \;
 a.shaderGameOfLife:setUniform1f("dCell_25" \, ofelia.dCell_25) \; a.shaderGameOfLife:setUniform1f("dCell_26"
 \, ofelia.dCell_26) \; a.shaderGameOfLife:setUniform1i("zCount" \,
-(a.count ) % a.volHeight) \; a.fboCells:beginFbo() \; ofClear(0) \;
-ofDrawRectangle(0 \, 0 \, a.volWidth \, a.volHeight) \; a.fboCells:endFbo()
-\; a.fboCells:readToPixels(a.pix) \; a.shaderGameOfLife:endShader()
-\; a.volumetrics:loadVolumeData(a.pix:getData() \, a.volWidth \, a.volHeight
-\, 1 \, 0 \, 0 \, (a.count + 1) % a.volHeight) \; a.pix:clear() \;
-end \; \;;
-#X obj 181 326 ofelia f \; return a % 10;
-#X floatatom 181 362 5 0 0 0 - - -;
-#X floatatom 164 298 5 0 0 0 - - -;
+a.count) \; a.fbo:beginFbo() \; ofClear(0) \; ofDrawRectangle(0 \,
+0 \, a.volWidth \, a.volHeight) \; a.fbo:endFbo() \; a.fbo:readToPixels(a.pix)
+\; a.shaderGameOfLife:endShader() \; a.volumetrics:loadVolumeData(a.pix:getData()
+\, a.volWidth \, a.volHeight \, 1 \, 0 \, 0 \, (a.count + 1) % a.volHeight)
+\; a.pix:clear() \; end \; \;;
 #X connect 24 0 31 0;
 #X connect 25 0 24 0;
 #X connect 26 0 29 0;
@@ -569,7 +564,5 @@ end \; \;;
 #X connect 32 0 75 0;
 #X connect 36 0 27 0;
 #X connect 74 0 32 0;
-#X connect 77 0 78 0;
-#X connect 79 0 77 0;
 #X coords 0 0 510 270 510 270 1 10 10;
 #X restore 21 18 pd \$0-gameofLife;
