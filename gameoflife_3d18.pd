@@ -1,5 +1,5 @@
-#N canvas 1121 91 551 307 10;
-#N canvas 271 399 741 592 \$0-gameofLife 0;
+#N canvas 1027 91 551 307 10;
+#N canvas 1005 423 741 592 \$0-gameofLife 0;
 #X obj 10 10 cnv 15 510 270 empty empty empty 20 12 0 14 -257985 -66577
 0;
 #X obj 20 20 cnv 15 490 250 empty empty Game_of_Life_3d 110 50 0 30
@@ -66,29 +66,28 @@ clock = ofClock(this \, "setup") \; local imageDir = canvas:getDir()
 .. "/images/Image" \; local shaderDir = canvas:getDir() .. "/shader/"
 \; local pix = ofPixels() \; a.pix = ofPixels() \; a.volumetrics =
 ofVolumetrics() \; a.fbo = ofFbo() \; a.fboLines = ofFbo() \; a.shaderGameOfLife
-= ofShader() \; a.shaderRaster = ofShader() \; local shaderSlice3d
-= ofShader() \; cam = ofEasyCam() \; a.volWidth \, a.volHeight \, a.volDepth
-= 0 \, 0 \, 0 \; local counter = - 1 \; local mouseFbo = ofFbo() \;
-local mousePixels = ofPixels() \; local tex = ofTexture() \; a.editMode
-= true \; \; function a.new() \; ofWindow.addListener("setup" \, this)
-\; ofWindow.addListener("update" \, this) \; ofWindow.addListener("draw"
-\, this) \; ofWindow.addListener("mousePressed" \, this) \; ofWindow.addListener("keyPressed"
-\, this) \; ofWindow.addListener("exit" \, this) \; window:setPosition(30
-\, 100) \; window:setSize(1024 \, 1024) \; if ofWindow.exists then
-\; clock:delay(0) \; else \; window:create() \; end \; end \; \; function
-a.free() \; window:destroy() \; ofWindow.removeListener("setup" \,
-this) \; ofWindow.removeListener("update" \, this) \; ofWindow.removeListener("draw"
+= ofShader() \; a.shaderRaster = ofShader() \; cam = ofEasyCam() \;
+a.volWidth \, a.volHeight \, a.volDepth = 0 \, 0 \, 0 \; local counter
+= - 1 \; local mouseFbo = ofFbo() \; local mousePixels = ofPixels()
+\; local tex = ofTexture() \; a.editMode = true \; \; function a.new()
+\; ofWindow.addListener("setup" \, this) \; ofWindow.addListener("update"
+\, this) \; ofWindow.addListener("draw" \, this) \; ofWindow.addListener("mousePressed"
+\, this) \; ofWindow.addListener("keyPressed" \, this) \; ofWindow.addListener("exit"
+\, this) \; window:setPosition(30 \, 100) \; window:setSize(1024 \,
+1024) \; if ofWindow.exists then \; clock:delay(0) \; else \; window:create()
+\; end \; end \; \; function a.free() \; window:destroy() \; ofWindow.removeListener("setup"
+\, this) \; ofWindow.removeListener("update" \, this) \; ofWindow.removeListener("draw"
 \, this) \; ofWindow.removeListener("mousePressed" \, this) \; ofWindow.removeListener("keyPressed"
 \, this) \; ofWindow.removeListener("exit" \, this) \; end \; \; function
 a.setup() \; ofSetWindowTitle("Game of Life 3d") \; ofBackground(0)
 \; a.shaderGameOfLife:load(shaderDir .. "GameOfLife3d") \; a.shaderRaster:load(shaderDir
-.. "Raster") \; shaderSlice3d:load(shaderDir .. "Slice3d") \; mouseFbo:beginFbo()
-\; ofEnableAlphaBlending() \; ofClear(0) \; ofDrawRectangle(0 \, 0
-\, a.volWidth \, a.volHeight) \; mouseFbo:endFbo() \; end \; \; function
-a.update() \; if ofelia.upload == 1 then \; a.count = - 1 \; a.volumetrics
-= nil \; a.volumetrics = ofVolumetrics() \; a.volumetrics:setup(a.volWidth
-\, a.volHeight \, a.volDepth \, ofVec3f(1 \, 1 \, 1) \, false) \; a.volumetrics:setRenderSettings(1.0
-\, 5 \, 1 \, 0.1) \; a.fbo:allocate(a.volWidth \, a.volHeight) \; a.fboLines:allocate(ofGetWidth()
+.. "Raster") \; mouseFbo:beginFbo() \; ofEnableAlphaBlending() \; ofClear(0)
+\; ofDrawRectangle(0 \, 0 \, a.volWidth \, a.volHeight) \; mouseFbo:endFbo()
+\; end \; \; function a.update() \; if ofelia.upload == 1 then \; a.count
+= - 1 \; a.volumetrics = nil \; a.volumetrics = ofVolumetrics() \;
+a.volumetrics:setup(a.volWidth \, a.volHeight \, a.volDepth \, ofVec3f(1
+\, 1 \, 1) \, false) \; a.volumetrics:setRenderSettings(1.0 \, 5 \,
+1 \, 0.1) \; a.fbo:allocate(a.volWidth \, a.volHeight) \; a.fboLines:allocate(ofGetWidth()
 \, ofGetHeight()) \; mouseFbo:allocate(a.volWidth \, a.volHeight) \;
 a.shaderRaster:beginShader() \; a.shaderRaster:setUniformTexture("Tex0"
 \, a.fboLines:getTexture() \, 0) \; a.shaderRaster:setUniform2f("resolution"
@@ -121,8 +120,9 @@ cam:endCamera() \; if a.editMode == true then \; mouseFbo:getTexture():setTextur
 \; if e.key == string.byte("e") then \; if a.editMode == true then
 \; a.editMode = false \; else \; a.editMode = true \; end \; end \;
 end \; \; function a.exit() \; a.volumetrics:destroy() \; a.fbo:clear()
-\; a.fboLines:clear() \; a.shaderGameOfLife:unload() \; pix:clear()
-\; a.pix:clear() \; end \; \;;
+\; a.fboLines:clear() \; mouseFbo:clear() \; a.shaderGameOfLife:unload()
+\; a.shaderRaster:unload() \; mousePixels:clear() \; pix:clear() \;
+a.pix:clear() \; tex:clear() \; end \; \;;
 #N canvas 67 616 750 247 Dead_Cells 0;
 #X obj 113 31 tgl 15 0 empty \$0-Dead_Cell_1 empty 17 7 0 10 -261234
 -1 -1 1 1;
