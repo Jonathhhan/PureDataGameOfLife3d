@@ -1,5 +1,5 @@
-#N canvas 1128 89 551 307 10;
-#N canvas 1034 485 741 418 \$0-gameofLife 0;
+#N canvas 1168 91 551 307 10;
+#N canvas 318 399 741 592 \$0-gameofLife 0;
 #X obj 10 10 cnv 15 510 270 empty empty empty 20 12 0 14 -257985 -66577
 0;
 #X obj 20 20 cnv 15 490 250 empty empty Game_of_Life_3d 110 50 0 30
@@ -58,8 +58,8 @@
 #X obj 547 195 s \$0-volumetrics;
 #X obj 547 129 s \$0-volumetrics;
 #X obj 547 65 s \$0-volumetrics;
-#X msg 547 238 upload 1;
-#X obj 547 284 ofelia d -k \$0-volumetrics;
+#X msg 90 501 upload 1;
+#X obj 547 218 ofelia d -k \$0-volumetrics;
 #A __set if type(window) ~= "userdata" then \; window = ofWindow()
 \; end \; \; local a = ofelia \; local canvas = ofCanvas(this) \; local
 clock = ofClock(this \, "setup") \; local imageDir = canvas:getDir()
@@ -286,7 +286,7 @@ end \; \; function a.exit() \; a.volumetrics:destroy() \; a.fbo:clear()
 #X connect 78 0 59 0;
 #X connect 79 0 60 0;
 #X connect 80 0 57 0;
-#X restore 547 353 pd Dead_Cells;
+#X restore 547 287 pd Dead_Cells;
 #N canvas 67 282 751 263 Living_Cells 0;
 #X obj 109 29 tgl 15 0 empty \$0-Living_Cell_1 empty 17 7 0 10 -204786
 -1 -1 1 1;
@@ -450,7 +450,7 @@ end \; \; function a.exit() \; a.volumetrics:destroy() \; a.fbo:clear()
 #X connect 78 0 59 0;
 #X connect 79 0 60 0;
 #X connect 80 0 57 0;
-#X restore 547 330 pd Living_Cells;
+#X restore 547 264 pd Living_Cells;
 #X obj 547 88 tgl 15 0 empty \$0-Sequence Sequence 17 7 0 10 -257985
 -1 -1 1 1;
 #X obj 192 177 tgl 15 1 \$0-Living_Cell_9 empty empty 17 7 0 10 -204786
@@ -527,10 +527,8 @@ end \; \; function a.exit() \; a.volumetrics:destroy() \; a.fbo:clear()
 -1 -1 0 1;
 #X obj 383 230 bng 15 250 50 0 empty empty Reset 17 7 0 10 -257985
 -1 -1;
-#X obj 433 116 bng 15 250 50 1 empty \$0-upload Upload 17 7 0 10 -257985
--1 -1;
-#X obj 547 261 s \$0-volumetrics;
-#X obj 547 307 ofelia d -k \$0-shader;
+#X obj 90 524 s \$0-volumetrics;
+#X obj 547 241 ofelia d -k \$0-shader;
 #A __set local a = require("\$0-volumetrics") \; \; function a.conway()
 \; a.count = (a.count + 1) % a.volDepth \; a.shaderGameOfLife:beginShader()
 \; a.shaderGameOfLife:setUniform3f("resolution" \, a.volWidth \, a.volHeight
@@ -583,35 +581,44 @@ a.count) \; a.fbo:beginFbo() \; ofClear(0) \; ofDrawRectangle(0 \,
 \; a.shaderGameOfLife:endShader() \; a.volumetrics:loadVolumeData(a.pix:getData()
 \, a.volWidth \, a.volHeight \, 1 \, 0 \, 0 \, (a.count + 1) % a.volDepth)
 \; a.pix:clear() \; end \; \;;
-#X obj 26 246 nbx 5 14 1 1000 0 1 empty \$0-volWidth volWidth 0 -8
-0 10 -257985 -1 -1 50 256;
-#X obj 25 346 s \$0-volumetrics;
-#X obj 117 237 nbx 5 14 1 1000 0 1 empty \$0-volHeight volHeight 0
--8 0 10 -257985 -1 -1 50 256;
-#X obj 131 356 s \$0-volumetrics;
-#X obj 239 249 nbx 5 14 1 1000 0 1 empty \$0-volDepth volDepth 0 -8
-0 10 -257985 -1 -1 200 256;
-#X obj 238 349 s \$0-volumetrics;
-#X msg 25 325 volWidth \$1;
-#X msg 132 334 volHeight \$1;
-#X msg 238 328 volDepth \$1;
-#X msg 382 330 reset 1;
-#X obj 382 352 s \$0-volumetrics;
+#X obj 102 234 nbx 5 14 1 1000 0 1 empty \$0-volWidth volWidth 0 -8
+0 10 -257985 -1 -1 40 256;
+#X obj 117 478 s \$0-volumetrics;
+#X obj 166 241 nbx 5 14 1 1000 0 1 empty \$0-volHeight volHeight 0
+-8 0 10 -257985 -1 -1 40 256;
+#X obj 144 434 s \$0-volumetrics;
+#X obj 223 237 nbx 5 14 1 1000 0 1 empty \$0-volDepth volDepth 0 -8
+0 10 -257985 -1 -1 300 256;
+#X obj 171 388 s \$0-volumetrics;
+#X msg 117 457 volWidth \$1;
+#X msg 144 411 volHeight \$1;
+#X msg 171 367 volDepth \$1;
+#X msg 383 303 reset 1;
+#X obj 383 325 s \$0-volumetrics;
+#X obj 89 321 pack f f f f;
+#X obj 90 344 unpack f f f f;
+#X obj 33 236 bng 15 250 50 1 empty \$0-upload Upload 17 7 0 10 -257985
+-1 -1;
 #X connect 24 0 31 0;
 #X connect 25 0 24 0;
 #X connect 26 0 29 0;
 #X connect 27 0 30 0;
 #X connect 28 0 26 0;
-#X connect 32 0 75 0;
+#X connect 32 0 74 0;
 #X connect 36 0 27 0;
-#X connect 73 0 86 0;
-#X connect 74 0 32 0;
-#X connect 77 0 83 0;
-#X connect 79 0 84 0;
-#X connect 81 0 85 0;
-#X connect 83 0 78 0;
-#X connect 84 0 80 0;
-#X connect 85 0 82 0;
-#X connect 86 0 87 0;
+#X connect 73 0 85 0;
+#X connect 76 0 87 1;
+#X connect 78 0 87 2;
+#X connect 80 0 87 3;
+#X connect 82 0 77 0;
+#X connect 83 0 79 0;
+#X connect 84 0 81 0;
+#X connect 85 0 86 0;
+#X connect 87 0 88 0;
+#X connect 88 0 32 0;
+#X connect 88 1 82 0;
+#X connect 88 2 83 0;
+#X connect 88 3 84 0;
+#X connect 89 0 87 0;
 #X coords 0 0 510 270 510 270 1 10 10;
 #X restore 21 16 pd \$0-gameofLife;
