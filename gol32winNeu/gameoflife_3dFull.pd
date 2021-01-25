@@ -1,5 +1,5 @@
-#N canvas 1354 367 551 307 10;
-#N canvas 2002 314 554 636 \$0-gameofLife 1;
+#N canvas 1274 367 551 307 10;
+#N canvas 2002 314 554 636 \$0-gameofLife 0;
 #X obj 10 10 cnv 15 510 270 empty empty empty 20 12 0 14 -257985 -66577
 0;
 #X obj 20 20 cnv 15 490 250 empty empty Game_of_Life_3d 110 50 0 30
@@ -164,7 +164,7 @@ a.gameOfLifeShader:setUniform1i("zCount" \, z) \; a.gameOfLifeFbo:beginFbo()
 -1 do \; a.texture3d:loadVolumeData(pixelsArray[z + 1]:getData() \,
 a.volWidth \, a.volHeight \, 1 \, 0 \, 0 \, z) \; pixelsArray[z + 1]:clear()
 \; end \; end \; \;;
-#N canvas 1011 608 719 322 pattern 1;
+#N canvas 1011 608 719 322 pattern 0;
 #X obj 259 75 bng 15 250 50 0 empty \$0-Copy_Pattern Copy_Pattern 17
 7 0 10 -257985 -1 -1;
 #X obj 260 136 bng 15 250 50 0 empty \$0-Paste_Pattern Paste_Pattern
