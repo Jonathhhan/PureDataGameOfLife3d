@@ -11,7 +11,7 @@
 #X obj 188 118 nbx 5 14 1 1000 0 1 \$0-Interval empty Interval 56 7
 0 10 -257985 -1 -1 1 256;
 #X obj 112 117 tgl 15 0 \$0-Sequence empty Sequence 17 7 0 10 -257985
--1 -1 1 1;
+-1 -1 0 1;
 #X msg 353 343 interval \$1;
 #X obj 353 324 nbx 5 14 -1e+037 1e+037 0 0 empty \$0-Interval Interval
 0 -8 0 10 -257985 -1 -1 1 256;
@@ -20,7 +20,7 @@
 #X obj 353 451 bng 15 250 50 0 empty \$0-Iterate Iterate 17 7 0 10
 -257985 -1 -1;
 #X obj 353 387 tgl 15 0 empty \$0-Sequence Sequence 17 7 0 10 -257985
--1 -1 1 1;
+-1 -1 0 1;
 #X obj 236 237 bng 15 250 50 0 empty empty Reset 17 7 0 10 -257985
 -1 -1;
 #X obj 59 238 nbx 5 14 1 1000 0 1 empty \$0-volWidthPreset volWidth
@@ -55,13 +55,13 @@ this) \; ofWindow.removeListener("update" \, this) \; ofWindow.removeListener("d
 \, this) \; ofWindow.removeListener("exit" \, this) \; end \; \; function
 a.setup() \; ofSetWindowTitle("Game of Life 3d") \; ofBackground(0)
 \; a.volWidth \, a.volHeight \, a.volDepth = 0 \, 0 \, 0 \; a.gameOfLifeShader:load(shaderDir
-.. "GameOfLife3d") \; rasterShader:load(shaderDir .. "Raster") \; a.shaderSlice3d:load(shaderDir
-.. "Slice3d") \; a.mouseFbo:beginFbo() \; ofClear(0) \; ofDrawRectangle(0
-\, 0 \, a.volWidth \, a.volHeight) \; a.mouseFbo:endFbo() \; a.editMode
-= 1 \; end \; \; function a.update() \; if a.updateVolume == 1 then
-\; a.sequenceCounter = -1 \; a.depthCounter = 0 \; a.texture3d = nil
-\; a.texture3d = ofVolumetrics() \; a.texture3d:setup(a.volWidth \,
-a.volHeight \, a.volDepth \, ofVec3f(1 \, 1 \, 1) \, false) \; a.texture3d:setRenderSettings(1.0
+.. "GameOfLife3dSlices") \; rasterShader:load(shaderDir .. "Raster")
+\; a.shaderSlice3d:load(shaderDir .. "Slice3d") \; a.mouseFbo:beginFbo()
+\; ofClear(0) \; ofDrawRectangle(0 \, 0 \, a.volWidth \, a.volHeight)
+\; a.mouseFbo:endFbo() \; a.editMode = 1 \; end \; \; function a.update()
+\; if a.updateVolume == 1 then \; a.sequenceCounter = -1 \; a.depthCounter
+= 0 \; a.texture3d = nil \; a.texture3d = ofVolumetrics() \; a.texture3d:setup(a.volWidth
+\, a.volHeight \, a.volDepth \, ofVec3f(1 \, 1 \, 1) \, false) \; a.texture3d:setRenderSettings(1.0
 \, 5 \, 1 \, 0.1) \; a.gameOfLifeFbo:allocate(a.volWidth \, a.volHeight)
 \; rasterFbo:allocate(ofGetWidth() \, ofGetHeight()) \; a.mouseFbo:allocate(a.volWidth
 \, a.volHeight) \; rasterShader:beginShader() \; rasterShader:setUniformTexture("Tex0"

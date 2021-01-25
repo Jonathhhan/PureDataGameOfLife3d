@@ -90,20 +90,11 @@ vec2 rule[27] = vec2[27](
 );
 
 int get(int x, int y, int z) {
-	return int(texture3D(Tex0, (gl_FragCoord.xyz + vec3(x, y, zCount -  z)) / resolution).r);
+	return int(texture3D(Tex0, (gl_FragCoord.xyz + vec3(x, y, zCount -z)) / resolution).r);
 }
 
 void main() {
 	int sum = 
-	get(-1, -1, -1) +
-	get(-1,  0, -1) +
-	get(-1,  1, -1) +
-	get( 0, -1, -1) +
-	get( 0,  1, -1) +
-	get( 1, -1, -1) +
-	get( 1,  0, -1) +
-	get( 1,  1, -1) +
-	get( 0,  0, -1) +
 	get(-1, -1, 0) +
 	get(-1,  0, 0) +
 	get(-1,  1, 0) +
@@ -111,19 +102,10 @@ void main() {
 	get( 0,  1, 0) +
 	get( 1, -1, 0) +
 	get( 1,  0, 0) +
-	get( 1,  1, 0) +
-	get(-1, -1, 1) +
-	get(-1,  0, 1) +
-	get(-1,  1, 1) +
-	get( 0, -1, 1) +
-	get( 0,  1, 1) +
-	get( 1, -1, 1) +
-	get( 1,  0, 1) +
-	get( 1,  1, 1) +
-	get( 0,  0, 1);
+	get( 1,  1, 0);
 	vec2 r = rule[sum];
 	if (get(0, 0, 0) == 1) {
-		gl_FragColor = vec4(r.x, r.x / zCount, r.x / sum, r.x);
+		gl_FragColor = vec4(r.x, r.x, r.x / sum, r.x);
 	}
 		else  {
 			gl_FragColor = vec4(r.y, r.y, r.y, r.y);

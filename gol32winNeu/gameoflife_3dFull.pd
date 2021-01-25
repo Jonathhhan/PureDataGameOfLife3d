@@ -1,5 +1,5 @@
-#N canvas 1274 367 551 307 10;
-#N canvas 2002 314 554 636 \$0-gameofLife 0;
+#N canvas 1354 367 551 307 10;
+#N canvas 1064 199 554 636 \$0-gameofLife 0;
 #X obj 10 10 cnv 15 510 270 empty empty empty 20 12 0 14 -257985 -66577
 0;
 #X obj 20 20 cnv 15 490 250 empty empty Game_of_Life_3d 110 50 0 30
@@ -11,7 +11,7 @@
 #X obj 188 118 nbx 5 14 1 1000 0 1 \$0-Interval empty Interval 56 7
 0 10 -257985 -1 -1 1 256;
 #X obj 112 117 tgl 15 0 \$0-Sequence empty Sequence 17 7 0 10 -257985
--1 -1 0 1;
+-1 -1 1 1;
 #X msg 353 343 interval \$1;
 #X obj 353 324 nbx 5 14 -1e+037 1e+037 0 0 empty \$0-Interval Interval
 0 -8 0 10 -257985 -1 -1 1 256;
@@ -20,19 +20,19 @@
 #X obj 353 451 bng 15 250 50 0 empty \$0-Iterate Iterate 17 7 0 10
 -257985 -1 -1;
 #X obj 353 387 tgl 15 0 empty \$0-Sequence Sequence 17 7 0 10 -257985
--1 -1 0 1;
+-1 -1 1 1;
 #X obj 236 237 bng 15 250 50 0 empty empty Reset 17 7 0 10 -257985
 -1 -1;
 #X obj 59 238 nbx 5 14 1 1000 0 1 empty \$0-volWidthPreset volWidth
-0 -8 0 10 -257985 -1 -1 51 256;
+0 -8 0 10 -257985 -1 -1 50 256;
 #X obj 118 238 nbx 5 14 1 1000 0 1 empty \$0-volHeightPreset volHeight
-0 -8 0 10 -257985 -1 -1 51 256;
+0 -8 0 10 -257985 -1 -1 50 256;
 #X obj 177 238 nbx 5 14 1 1000 0 1 empty \$0-volDepthPreset volDepth
-0 -8 0 10 -257985 -1 -1 51 256;
+0 -8 0 10 -257985 -1 -1 200 256;
 #X msg 236 298 reset 1;
 #X obj 8 352 pack f f f f;
 #X obj 251 200 hradio 15 1 1 16 \$0-Pattern empty Pattern 0 -8 0 10
--257985 -1 -1 14;
+-257985 -1 -1 9;
 #X obj 353 517 ofelia d -k \$0-gameOfLife3d;
 #A __set if type(window) ~= "userdata" then \; window = ofWindow()
 \; end \; \; local a = ofelia \; local canvas = ofCanvas(this) \; local
@@ -109,11 +109,11 @@ function a.exit() \; a.texture3d:destroy() \; a.gameOfLifeShader:unload()
 #X obj 236 320 s \$0-gameOfLife3d;
 #X obj 353 540 ofelia d -k \$0-shader;
 #A __set local a = require("\$0-gameOfLife3d") \; local pixelsArray
-= {} \; \; function a.conway() \; a.depthCounter = (a.depthCounter
-+ 1) % a.volDepth \; for z = 0 \, a.volDepth -1 do \; pixelsArray[z
-+ 1] = ofPixels() \; a.gameOfLifeShader:beginShader() \; a.gameOfLifeShader:setUniformTexture("Tex0"
-\, a.texture3d:getFboReference():getTexture() \, 0) \; a.gameOfLifeShader:setUniform3f("resolution"
-\, a.volWidth \, a.volHeight \, a.volDepth) \; a.gameOfLifeShader:setUniform1f("lCell_0"
+= {} \; \; function a.conway() \; for z = 0 \, a.volDepth -1 do \;
+pixelsArray[z + 1] = ofPixels() \; a.gameOfLifeShader:beginShader()
+\; a.gameOfLifeShader:setUniformTexture("Tex0" \, a.texture3d:getFboReference():getTexture()
+\, 0) \; a.gameOfLifeShader:setUniform3f("resolution" \, a.volWidth
+\, a.volHeight \, a.volDepth) \; a.gameOfLifeShader:setUniform1f("lCell_0"
 \, ofelia.lCell_0) \; a.gameOfLifeShader:setUniform1f("lCell_1" \,
 ofelia.lCell_1) \; a.gameOfLifeShader:setUniform1f("lCell_2" \, ofelia.lCell_2)
 \; a.gameOfLifeShader:setUniform1f("lCell_3" \, ofelia.lCell_3) \;
@@ -172,7 +172,7 @@ a.volWidth \, a.volHeight \, 1 \, 0 \, 0 \, z) \; pixelsArray[z + 1]:clear()
 #X obj 44 174 bng 15 250 50 0 empty \$0-Save_Pattern Save_Pattern 17
 7 0 10 -257985 -1 -1;
 #X obj 79 32 hradio 15 1 0 16 empty \$0-Pattern Pattern 0 -8 0 10 -257985
--1 -1 14;
+-1 -1 9;
 #X obj 44 238 text define -k \$0-preset;
 #A set 50 50 200 0 1 0 0 1 1 0 0 0 0 0 0 0 0 1 1 1 1 0 0 0 1 0 0 0
 0 0 0 1 0 0 0 0 0 0 1 1 1 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1371 1420
@@ -202,11 +202,10 @@ a.volWidth \, a.volHeight \, 1 \, 0 \, 0 \, z) \; pixelsArray[z + 1]:clear()
 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 0 0 0 0 0 0 0 0 0 0 \; 50 50 200 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 \; 51 51 51 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1249 1300
-1351 \; 15 15 15 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 97 112 127
-\;;
+0 0 0 \; 50 50 200 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 \; 200
+200 200 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 22088 \;;
 #X obj 106 73 text get \$0-preset;
 #X obj 79 52 t f f;
 #X obj 44 217 text set \$0-preset;
@@ -239,7 +238,7 @@ do \; x = a.presetList[k] // a.volHeight + 1 \; y = a.presetList[k]
 % a.volHeight + 1 \; rectangle(x * 1 - 1 \, y * 1 - 1 \, 1 \, 1) \;
 end \; end \; a.mouseFbo:endFbo() \; a.mouseFbo:getTexture():readToPixels(a.mousePixels)
 \; a.texture3d:loadVolumeData(a.mousePixels:getData() \, a.volWidth
-\, a.volHeight \, 1 \, 0 \, 0 \, 25) \; end \;;
+\, a.volHeight \, 1 \, 0 \, 0 \, a.volDepth / 2) \; end \;;
 #X obj 44 196 ofelia d -c11 -k \$0-setPreset;
 #A __set local a = require("\$0-gameOfLife3d") \; \; function ofelia.bang()
 \; local array = ofArray("\$0-cellStates") \; \; a.mouseFbo:getTexture():readToPixels(a.mousePixels)
@@ -553,8 +552,8 @@ if f == 32 then \; if a.cam3d:isStereo() == true then \; a.cam3d:disableStereo()
 #X msg 8 375 volDepth \$4 \, volHeight \$3 \, volWidth \$2 \, updateVolume
 1;
 #X obj 8 421 array d -k \$0-cellStates 54;
-#A 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0;
+#A 0 0 0 0 0 0 0 0 0 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0;
 #X obj 320 153 dCell 17 \$0;
 #X obj 49 85 bng 15 250 50 0 \$0-Save_Pattern empty Save 17 7 0 10
 -257985 -1 -1;
