@@ -24,15 +24,15 @@
 #X obj 236 237 bng 15 250 50 0 empty empty Reset 17 7 0 10 -257985
 -1 -1;
 #X obj 59 238 nbx 5 14 1 1000 0 1 empty \$0-volWidthPreset volWidth
-0 -8 0 10 -257985 -1 -1 10 256;
+0 -8 0 10 -257985 -1 -1 25 256;
 #X obj 118 238 nbx 5 14 1 1000 0 1 empty \$0-volHeightPreset volHeight
-0 -8 0 10 -257985 -1 -1 10 256;
+0 -8 0 10 -257985 -1 -1 25 256;
 #X obj 177 238 nbx 5 14 1 1000 0 1 empty \$0-volDepthPreset volDepth
-0 -8 0 10 -257985 -1 -1 10 256;
+0 -8 0 10 -257985 -1 -1 50 256;
 #X msg 236 298 reset 1;
 #X obj 8 352 pack f f f f;
 #X obj 251 200 hradio 15 1 1 16 \$0-Pattern empty Pattern 0 -8 0 10
--257985 -1 -1 0;
+-257985 -1 -1 1;
 #X obj 353 517 ofelia d -k \$0-gameOfLife3d;
 #A __set if type(window) ~= "userdata" then \; window = ofWindow()
 \; end \; \; local a = ofelia \; local canvas = ofCanvas(this) \; local
@@ -55,13 +55,13 @@ this) \; ofWindow.removeListener("update" \, this) \; ofWindow.removeListener("d
 \, this) \; ofWindow.removeListener("exit" \, this) \; end \; \; function
 a.setup() \; ofSetWindowTitle("Game of Life 3d") \; ofBackground(0)
 \; a.volWidth \, a.volHeight \, a.volDepth = 0 \, 0 \, 0 \; a.gameOfLifeShader:load(shaderDir
-.. "GameOfLife3d") \; rasterShader:load(shaderDir .. "Raster") \; a.shaderSlice3d:load(shaderDir
-.. "Slice3d") \; a.mouseFbo:beginFbo() \; ofClear(0) \; ofDrawRectangle(0
-\, 0 \, a.volWidth \, a.volHeight) \; a.mouseFbo:endFbo() \; a.editMode
-= 1 \; end \; \; function a.update() \; if a.updateVolume == 1 then
-\; a.sequenceCounter = -1 \; a.depthCounter = 0 \; a.texture3d = nil
-\; a.texture3d = ofVolumetrics() \; a.texture3d:setup(a.volWidth \,
-a.volHeight \, a.volDepth \, ofVec3f(1 \, 1 \, 1) \, false) \; a.texture3d:setRenderSettings(1.0
+.. "GameOfLife3dSlices") \; rasterShader:load(shaderDir .. "Raster")
+\; a.shaderSlice3d:load(shaderDir .. "Slice3d") \; a.mouseFbo:beginFbo()
+\; ofClear(0) \; ofDrawRectangle(0 \, 0 \, a.volWidth \, a.volHeight)
+\; a.mouseFbo:endFbo() \; a.editMode = 1 \; end \; \; function a.update()
+\; if a.updateVolume == 1 then \; a.sequenceCounter = -1 \; a.depthCounter
+= 0 \; a.texture3d = nil \; a.texture3d = ofVolumetrics() \; a.texture3d:setup(a.volWidth
+\, a.volHeight \, a.volDepth \, ofVec3f(1 \, 1 \, 1) \, false) \; a.texture3d:setRenderSettings(1.0
 \, 5 \, 1 \, 0.1) \; a.gameOfLifeFbo:allocate(a.volWidth \, a.volHeight)
 \; rasterFbo:allocate(ofGetWidth() \, ofGetHeight()) \; a.mouseFbo:allocate(a.volWidth
 \, a.volHeight) \; rasterShader:beginShader() \; rasterShader:setUniformTexture("Tex0"
@@ -175,7 +175,7 @@ a.gameOfLifeShader:setUniform1i("zCount" \, a.depthCounter) \; a.gameOfLifeFbo:b
 #X obj 44 174 bng 15 250 50 0 empty \$0-Save_Pattern Save_Pattern 17
 7 0 10 -257985 -1 -1;
 #X obj 79 32 hradio 15 1 0 16 empty \$0-Pattern Pattern 0 -8 0 10 -257985
--1 -1 0;
+-1 -1 1;
 #X obj 44 238 text define -k \$0-preset;
 #A set 10 10 10 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 43 44 52 55
